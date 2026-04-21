@@ -108,7 +108,6 @@ table.t .bold{font-weight:600;color:var(--color-text-primary)}
   <div class="tab" onclick="showPage('util',this)">Utilisation calculator</div>
   <div class="tab" onclick="showPage('kpi',this)">KPI framework</div>
   <div class="tab" onclick="showPage('salary',this)">Salary progression</div>
-  <div class="tab" onclick="showPage('bonus',this)">Bonus model</div>
   <div class="tab" onclick="showPage('actions',this)">Priority actions</div>
 </div>
 
@@ -426,41 +425,6 @@ table.t .bold{font-weight:600;color:var(--color-text-primary)}
 </div>
 </div>
 
-<!-- PAGE: BONUS MODEL -->
-<div id="pg-bonus" class="page">
-<div class="sec">Bonus structure — confirmed live for 2026/27</div>
-<div class="panel">
-  <h3>How the bonus works — confirmed model</h3>
-  <div class="sub">Two payment events per year. Both are conditional on the company hitting its financial targets. Both have been paid in 2025/26 — this is a confirmed, live scheme.</div>
-  <div style="overflow-x:auto">
-  <table class="t">
-    <thead><tr><th>Payment</th><th>Trigger</th><th>Amount</th><th>Timing</th><th>Condition</th></tr></thead>
-    <tbody>
-      <tr><td class="bold">6-month bonus</td><td>Company achieves H1 financial target (net profit on track)</td><td>0.5 × monthly salary</td><td>October 2026</td><td>H1 revenue ≥ £650k AND net profit margin on track</td></tr>
-      <tr><td class="bold">Year-end bonus</td><td>Company achieves full-year financial target</td><td>1.0 × monthly salary</td><td>April / May 2027</td><td>Full year revenue ≥ £1.3m AND net profit ≥ £300k</td></tr>
-    </tbody>
-  </table>
-  </div>
-</div>
-
-<div class="panel">
-  <h3>Bonus cost modelling — at target performance</h3>
-  <div class="sub">Total bonus liability at current salaries if both targets are hit.</div>
-  <div style="overflow-x:auto">
-  <table class="t">
-    <thead><tr><th>Name</th><th>Annual salary</th><th>Monthly salary</th><th>6-month bonus (0.5×)</th><th>Year-end bonus (1×)</th><th>Total bonus</th></tr></thead>
-    <tbody id="bonusBody"></tbody>
-    <tfoot><tr style="font-weight:600;background:var(--color-background-secondary)"><td>TOTAL</td><td id="bt-sal">—</td><td>—</td><td id="bt-6m">—</td><td id="bt-ye">—</td><td id="bt-tot">—</td></tr></tfoot>
-  </table>
-  </div>
-  <div class="note-box" style="margin-top:10px">Total bonus liability with employer NI (13.8%) = approximately <span id="bonus-ni">—</span>. This must be reserved monthly — approximately <span id="bonus-monthly">—</span> set aside each month to fund both payments.</div>
-</div>
-
-<div class="two">
-  <div class="ib g"><h4>Why this bonus model is strong</h4><p>It is conditional on company performance — so it self-funds. It pays out twice a year which maintains engagement. It is transparent and the same for everyone (proportionate to salary). It directly connects individual effort to company outcome. It has already been paid — which means the team trusts it.</p></div>
-  <div class="ib a"><h4>One risk to manage</h4><p>If the 6-month target is missed, team motivation can dip in H2. Consider a stretch incentive: if H1 is missed but the full year is still achieved, the 6-month bonus is paid alongside the year-end bonus. This keeps effort high even if Q1/Q2 are difficult.</p></div>
-</div>
-</div>
 
 <!-- PAGE: PRIORITY ACTIONS -->
 <div id="pg-actions" class="page">
@@ -503,7 +467,7 @@ function showPage(id,el){
   document.getElementById('pg-'+id).classList.add('active');
   el.classList.add('active');
   if(id==='util') calcUtil();
-  if(id==='bonus') buildBonus();
+
 }
 
 function calcUtil(){
@@ -548,51 +512,7 @@ function calcUtil(){
   `;
 }
 
-const SALARIES=[
-  {name:'Peter Wharton',sal:104750},
-  {name:'Laura Carter',sal:46000},
-  {name:'Michael Nicklin',sal:32000},
-  {name:'Rebekah Bristow',sal:28000},
-  {name:'Natalie Sabin',sal:20000},
-  {name:'Katrina Wells',sal:42000},
-  {name:'Rowan Finch',sal:28500},
-  {name:'Luke Waddison',sal:28000},
-  {name:'Francessca Aldridge',sal:22680},
-  {name:'Sebastian Channell',sal:30000},
-  {name:'Dominic Martens',sal:34500},
-  {name:'Emma Hughes',sal:27500},
-  {name:'Felicity Humphries',sal:26500},
-  {name:'Sarah Kirk-Griffith',sal:29150},
-  {name:'Maddie Bray',sal:25000},
-  {name:'Imigin Toney',sal:15873},
-];
-
-function buildBonus(){
-  const tbody=document.getElementById('bonusBody');
-  tbody.innerHTML='';
-  let totSal=0,tot6m=0,totYe=0,totTot=0;
-  const fmt=n=>'£'+Math.round(n).toLocaleString('en-GB');
-  SALARIES.forEach(p=>{
-    const monthly=p.sal/12;
-    const b6=monthly*0.5;
-    const bye=monthly*1.0;
-    const tot=b6+bye;
-    totSal+=p.sal; tot6m+=b6; totYe+=bye; totTot+=tot;
-    const tr=document.createElement('tr');
-    tr.innerHTML=`<td>${p.name}</td><td>${fmt(p.sal)}</td><td>${fmt(monthly)}</td><td class="green">${fmt(b6)}</td><td class="green">${fmt(bye)}</td><td style="font-weight:600">${fmt(tot)}</td>`;
-    tbody.appendChild(tr);
-  });
-  document.getElementById('bt-sal').textContent='£'+Math.round(totSal).toLocaleString();
-  document.getElementById('bt-6m').textContent='£'+Math.round(tot6m).toLocaleString();
-  document.getElementById('bt-ye').textContent='£'+Math.round(totYe).toLocaleString();
-  document.getElementById('bt-tot').textContent='£'+Math.round(totTot).toLocaleString();
-  const withNI=totTot*1.138;
-  document.getElementById('bonus-ni').textContent='£'+Math.round(withNI).toLocaleString();
-  document.getElementById('bonus-monthly').textContent='£'+Math.round(withNI/12).toLocaleString();
-}
-
 window.addEventListener('load',()=>{
   calcUtil();
-  buildBonus();
 });
 </script>
