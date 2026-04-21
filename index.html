@@ -1,0 +1,598 @@
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;color:var(--color-text-primary);background:transparent}
+.wrap{max-width:1020px;margin:0 auto;padding:20px 16px 52px}
+.hdr{background:#0f2130;border-radius:12px;padding:24px 28px;margin-bottom:18px}
+.hdr h1{font-size:19px;font-weight:500;color:#fff;margin-bottom:4px}
+.hdr p{font-size:12px;color:#7fa8c0;line-height:1.6}
+.bdg{display:inline-block;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:.5px;margin-bottom:10px}
+.bdg.gold{background:#e8b84b;color:#2a1e00}
+.bdg.teal{background:#9FE1CB;color:#04342C}
+.bdg.blue{background:#93aee0;color:#0c2a44}
+.sec{font-size:10px;font-weight:700;letter-spacing:.9px;color:#4a7a5a;text-transform:uppercase;margin:22px 0 8px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.tab{font-size:11px;padding:6px 14px;border-radius:20px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-secondary);cursor:pointer}
+.tab.active{background:#1c3444;color:#fff;border-color:#1c3444}
+.page{display:none}.page.active{display:block}
+.panel{background:var(--color-background-primary);border-radius:10px;padding:16px 18px;border:0.5px solid var(--color-border-tertiary);margin-bottom:12px}
+.panel h3{font-size:13px;font-weight:500;margin-bottom:3px}
+.panel .sub{font-size:11px;color:var(--color-text-secondary);margin-bottom:12px;line-height:1.6}
+.mg{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:12px}
+.mc{background:var(--color-background-secondary);border-radius:8px;padding:12px 14px}
+.mc .lbl{font-size:11px;color:var(--color-text-secondary);margin-bottom:3px}
+.mc .val{font-size:20px;font-weight:500}
+.mc .sub2{font-size:11px;margin-top:2px;color:var(--color-text-secondary)}
+.green{color:#2d7a4f;font-weight:600}
+.amber{color:#c07a0a;font-weight:600}
+.red{color:#c0392b;font-weight:600}
+.blue{color:#185FA5;font-weight:600}
+table.t{width:100%;border-collapse:collapse;font-size:12px}
+table.t th{text-align:left;padding:7px 9px;font-size:10px;font-weight:700;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid var(--color-border-tertiary);background:var(--color-background-secondary)}
+table.t td{padding:7px 9px;border-bottom:0.5px solid var(--color-border-tertiary);vertical-align:top;font-size:12px}
+table.t tr:last-child td{border-bottom:none}
+table.t .bold{font-weight:600;color:var(--color-text-primary)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.ib{padding:12px 14px;border-left:3px solid;border-radius:0}
+.ib.g{background:#e8f5ec;border-left-color:#2d7a4f}
+.ib.a{background:#fdf3e3;border-left-color:#d4840a}
+.ib.r{background:#fdf0f0;border-left-color:#c0392b}
+.ib.b{background:#eef2fb;border-left-color:#4a7aaa}
+.ib h4{font-size:11px;font-weight:600;margin-bottom:4px}
+.ib.g h4{color:#1a5c38}.ib.a h4{color:#7a4a00}.ib.r h4{color:#7a1a1a}.ib.b h4{color:#1a3a6a}
+.ib p{font-size:11px;line-height:1.6;color:#374151}
+.kpi-card{background:var(--color-background-primary);border-radius:10px;border:0.5px solid var(--color-border-tertiary);margin-bottom:10px;overflow:hidden}
+.kpi-header{padding:12px 16px;background:var(--color-background-secondary);display:flex;justify-content:space-between;align-items:center}
+.kpi-header h4{font-size:13px;font-weight:500}
+.kpi-header .role-tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px}
+.rt-eco{background:#e8f5ec;color:#1a5c38}
+.rt-arb{background:#eef2fb;color:#0c447c}
+.rt-mgmt{background:#fdf3e3;color:#7a4a00}
+.rt-all{background:#f1efe8;color:#444441}
+.kpi-body{padding:12px 16px}
+.level-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:8px}
+.level-box{border-radius:6px;padding:10px;border:0.5px solid var(--color-border-tertiary)}
+.level-box h5{font-size:10px;font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.lv1 h5{color:#185FA5}
+.lv2 h5{color:#2d7a4f}
+.lv3 h5{color:#e8b84b}
+.level-box ul{list-style:none;padding:0}
+.level-box ul li{font-size:10px;color:var(--color-text-secondary);padding:2px 0;border-bottom:0.5px solid var(--color-border-tertiary);line-height:1.5}
+.level-box ul li:last-child{border-bottom:none}
+.level-box .salary{font-size:11px;font-weight:600;margin-top:6px;padding-top:6px;border-top:0.5px solid var(--color-border-tertiary)}
+.coach-box{background:#0f2130;border-radius:10px;padding:16px 18px;margin-bottom:12px}
+.coach-box h3{color:#fff;font-size:13px;font-weight:500;margin-bottom:10px}
+.ci{display:flex;gap:8px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:11px;align-items:flex-start}
+.ci:last-child{border-bottom:none}
+.ctag{font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;flex-shrink:0;margin-top:1px;letter-spacing:.4px;text-transform:uppercase;white-space:nowrap}
+.ctag.must{background:#e8b84b;color:#2a1e00}
+.ctag.watch{background:#f09595;color:#501313}
+.ctag.plan{background:#93c5e0;color:#0c2a44}
+.ctag.good{background:#c0dd97;color:#173404}
+.ci p{color:#9ab8cc;line-height:1.6}
+.ci p strong{color:#e8edf2}
+.note-box{background:#eef2fb;border-radius:8px;padding:10px 14px;font-size:11px;color:var(--color-text-secondary);border-left:3px solid #93aee0;margin-bottom:10px;line-height:1.6}
+.util-slider-wrap{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.util-slider-wrap label{font-size:11px;color:var(--color-text-secondary);width:160px;flex-shrink:0}
+.util-slider-wrap input{flex:1}
+.util-slider-wrap .rv{font-size:12px;font-weight:500;min-width:36px;text-align:right}
+.revenue-output{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:10px 0}
+.ro-card{background:var(--color-background-secondary);border-radius:6px;padding:10px 12px}
+.ro-card .rl{font-size:10px;color:var(--color-text-secondary);margin-bottom:2px}
+.ro-card .rv2{font-size:16px;font-weight:500}
+.quarter-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.qcard{background:var(--color-background-secondary);border-radius:8px;padding:12px;text-align:center}
+.qcard .ql{font-size:10px;color:var(--color-text-secondary);margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.qcard .qv{font-size:16px;font-weight:500}
+.qcard .qs{font-size:10px;color:var(--color-text-secondary);margin-top:2px}
+.bv-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.bv-label{font-size:11px;color:var(--color-text-secondary);width:140px;flex-shrink:0}
+.bv-track{flex:1;height:12px;background:var(--color-background-secondary);border-radius:10px;overflow:hidden}
+.bv-fill{height:100%;border-radius:10px;transition:width .3s}
+.bv-pct{font-size:11px;font-weight:600;min-width:40px;text-align:right}
+@media(max-width:600px){.two,.three,.level-grid,.quarter-grid{grid-template-columns:1fr}}
+</style>
+
+<div class="wrap">
+<div class="hdr">
+  <div class="bdg gold">Business plan 2026/27</div>
+  <div class="bdg teal" style="margin-left:6px">Revenue target: £1.3m</div>
+  <div class="bdg blue" style="margin-left:6px">Net profit target: £300k–£350k</div>
+  <h1>Wharton Natural Infrastructure Consultants — growth plan &amp; KPI framework</h1>
+  <p>Built from confirmed P&L actuals, team salaries, charge-out rates and utilisation targets. All revenue calculations use actual available hours after leave and bank holidays. Navigate using the tabs below.</p>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="showPage('revenue',this)">Revenue model</div>
+  <div class="tab" onclick="showPage('pl',this)">P&amp;L forecast</div>
+  <div class="tab" onclick="showPage('util',this)">Utilisation calculator</div>
+  <div class="tab" onclick="showPage('kpi',this)">KPI framework</div>
+  <div class="tab" onclick="showPage('salary',this)">Salary progression</div>
+  <div class="tab" onclick="showPage('bonus',this)">Bonus model</div>
+  <div class="tab" onclick="showPage('actions',this)">Priority actions</div>
+</div>
+
+<!-- PAGE: REVENUE MODEL -->
+<div id="pg-revenue" class="page active">
+<div class="sec">Available hours calculation — the foundation of everything</div>
+<div class="note-box">Full year = 52 weeks × 39.5hrs = 2,054 hrs. Less 24 days leave (192 hrs) and 8 bank holidays (64 hrs) = <strong>1,798 chargeable hours available per person per year</strong>. All revenue calculations below use this figure.</div>
+
+<div class="panel">
+  <h3>Revenue model by grade — at target utilisation</h3>
+  <div class="sub">Based on 1,798 available hours per person. Numbers of fee earners drawn from current team structure. Revenue shown at current rates and at recommended +8% rate increase.</div>
+  <div style="overflow-x:auto">
+  <table class="t">
+    <thead><tr>
+      <th>Grade</th><th>Rate/hr</th><th>+8% rate</th><th>Utilisation</th><th>Chargeable hrs/person</th><th>People</th><th>Revenue (current)</th><th>Revenue (+8%)</th>
+    </tr></thead>
+    <tbody>
+      <tr><td>Assistant Ecologist</td><td>£60</td><td>£65</td><td>65%</td><td>1,169</td><td>2</td><td class="green">£140,280</td><td class="green">£151,970</td></tr>
+      <tr><td>Ecological Consultant</td><td>£70</td><td>£76</td><td>80%</td><td>1,438</td><td>5</td><td class="green">£503,300</td><td class="green">£545,440</td></tr>
+      <tr><td>Senior Ecological Consultant</td><td>£77.50 avg</td><td>£84</td><td>80%</td><td>1,438</td><td>2</td><td class="green">£222,890</td><td class="green">£241,584</td></tr>
+      <tr><td>Senior Arb Consultant</td><td>£77.50 avg</td><td>£84</td><td>80%</td><td>1,438</td><td>1</td><td class="green">£111,445</td><td class="green">£120,792</td></tr>
+      <tr><td>Arboricultural Consultant</td><td>£70</td><td>£76</td><td>80%</td><td>1,438</td><td>1</td><td class="green">£100,660</td><td class="green">£109,288</td></tr>
+      <tr><td>Director (Peter)</td><td>£105</td><td>£105</td><td>50%</td><td>899</td><td>1</td><td class="green">£94,395</td><td class="green">£94,395</td></tr>
+      <tr style="background:var(--color-background-secondary);font-weight:600"><td>Total fee-earning</td><td>—</td><td>—</td><td>—</td><td>—</td><td>12</td><td class="green">£1,172,970</td><td class="green">£1,263,469</td></tr>
+      <tr><td>Mileage &amp; expenses recharge</td><td colspan="5" style="color:var(--color-text-secondary);font-size:11px">Based on 2025/26 actuals trend</td><td>£41,000</td><td>£41,000</td></tr>
+      <tr><td>Other / Roots income</td><td colspan="5" style="color:var(--color-text-secondary);font-size:11px">Roots target £28k + other</td><td>£42,000</td><td>£42,000</td></tr>
+      <tr class="bold" style="background:var(--color-background-secondary)"><td>TOTAL PROJECTED TURNOVER</td><td colspan="5"></td><td class="amber">£1,255,970</td><td class="green">£1,346,469</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note-box" style="margin-top:10px">At current charge-out rates with target utilisation, projected turnover is <strong>£1.26m — £44k short of target</strong>. An 8% rate increase delivers <strong>£1.35m — exceeding the £1.3m target</strong>. The fee rate increase is not optional — it is the critical enabler of the plan.</div>
+</div>
+
+<div class="sec">Revenue gap analysis</div>
+<div class="two">
+  <div class="ib g"><h4>What closes the £44k gap without a rate increase</h4><p>Option A: Fill the vacant Arboricultural Consultant post — adds ~£100k at current rates. Option B: Increase Ecological Consultant utilisation from 80% to 85% across 5 people — adds ~£31k. Option C: Both together — exceeds £1.3m comfortably. The rate increase makes all scenarios more resilient.</p></div>
+  <div class="ib a"><h4>Risk if utilisation is 10% below target</h4><p>If actual utilisation runs 10% below target (a realistic risk given no current tracking), projected revenue falls to approximately £1.07m — below the 2025/26 actual. This is why utilisation tracking is non-negotiable from April 2026. See the Utilisation Calculator tab.</p></div>
+</div>
+
+<div class="sec">Quarterly revenue targets</div>
+<div class="quarter-grid">
+  <div class="qcard"><div class="ql">Q1 Apr–Jun</div><div class="qv green">£310,000</div><div class="qs">Survey season ramp-up</div></div>
+  <div class="qcard"><div class="ql">Q2 Jul–Sep</div><div class="qv green">£350,000</div><div class="qs">Peak survey season</div></div>
+  <div class="qcard"><div class="ql">Q3 Oct–Dec</div><div class="qv amber">£320,000</div><div class="qs">Post-season, reports heavy</div></div>
+  <div class="qcard"><div class="ql">Q4 Jan–Mar</div><div class="qv green">£320,000</div><div class="qs">Planning pipeline delivery</div></div>
+</div>
+</div>
+
+<!-- PAGE: P&L FORECAST -->
+<div id="pg-pl" class="page">
+<div class="sec">Projected P&amp;L — 2026/27 vs confirmed 2025/26 actuals</div>
+<div class="panel">
+  <h3>Full P&amp;L forecast — three scenarios</h3>
+  <div class="sub">Conservative = current rates, current utilisation. Base = 8% rate increase, target utilisation. Stretch = 8% rate increase + vacant post filled + utilisation at 85%.</div>
+  <div style="overflow-x:auto">
+  <table class="t">
+    <thead><tr><th>Line item</th><th>2025/26 actual</th><th>Conservative</th><th>Base plan</th><th>Stretch</th></tr></thead>
+    <tbody>
+      <tr class="bold"><td>Turnover</td><td>£1,038,318</td><td>£1,090,000</td><td class="green">£1,346,000</td><td class="green">£1,480,000</td></tr>
+      <tr><td>Cost of sales (wages, travel, direct)</td><td>£607,369</td><td>£625,000</td><td>£680,000</td><td>£730,000</td></tr>
+      <tr class="bold"><td>Gross profit</td><td>£430,949</td><td>£465,000</td><td class="green">£666,000</td><td class="green">£750,000</td></tr>
+      <tr><td style="padding-left:14px;font-size:11px">GP margin %</td><td>41.5%</td><td>42.7%</td><td class="green">49.5%</td><td class="green">50.7%</td></tr>
+      <tr><td>Salaries (admin + management)</td><td>inc. above</td><td>£90,000</td><td>£95,000</td><td>£98,000</td></tr>
+      <tr><td>Salary increases to band midpoints</td><td>—</td><td>£20,000</td><td>£35,000</td><td>£35,000</td></tr>
+      <tr><td>Bonus payments (est.)</td><td>inc. in admin</td><td>£35,000</td><td>£52,000</td><td>£57,000</td></tr>
+      <tr><td>Admin overheads (held flat)</td><td>£221,784</td><td>£225,000</td><td>£228,000</td><td>£230,000</td></tr>
+      <tr class="bold"><td>Operating profit</td><td>£209,165</td><td>£95,000</td><td class="green">£256,000</td><td class="green">£330,000</td></tr>
+      <tr><td>Corporation tax (est. 25.1%)</td><td>£52,470</td><td>£23,845</td><td>£64,256</td><td>£82,830</td></tr>
+      <tr class="bold"><td>Profit after tax</td><td>£156,695</td><td class="amber">£71,155</td><td class="green">£191,744</td><td class="green">£247,170</td></tr>
+      <tr><td style="padding-left:14px;font-size:11px">Net margin %</td><td>15.1%</td><td class="amber">6.5%</td><td class="green">14.2%</td><td class="green">16.7%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="note-box" style="margin-top:10px">The conservative scenario (no rate increase, below-target utilisation) is a significant step backward from 2025/26. The base plan requires the 8% rate increase AND hitting utilisation targets. The stretch scenario requires additionally filling the vacant arb post. <strong>The £300–350k net profit target requires the stretch scenario.</strong></div>
+</div>
+
+<div class="sec">What needs to be true for each scenario</div>
+<div class="three">
+  <div class="ib r"><h4>Conservative — risk scenario</h4><p>No rate increase. Utilisation 10% below target. Revenue £1.09m. Profit after tax drops to £71k — below 2025/26. Do not allow this scenario to happen by default.</p></div>
+  <div class="ib a"><h4>Base plan — the minimum acceptable</h4><p>8% rate increase implemented April. Utilisation tracked and hitting targets. Vacant arb post unfilled. Revenue £1.35m, PAT £192k. Viable but below profit target.</p></div>
+  <div class="ib g"><h4>Stretch — the stated ambition</h4><p>Rate increase + utilisation + vacant arb post filled by Q1. Revenue £1.48m, PAT £247k. Closest to £300–350k target. Director remuneration top-up via dividends brings total reward to target level.</p></div>
+</div>
+</div>
+
+<!-- PAGE: UTILISATION CALCULATOR -->
+<div id="pg-util" class="page">
+<div class="sec">Interactive utilisation calculator</div>
+<div class="note-box">Adjust the utilisation sliders to model revenue impact. Available hours per person = 1,798/year. This is the tool you need to run in your weekly management review once tracking is introduced.</div>
+<div class="panel">
+  <h3>Revenue sensitivity to utilisation — adjust to model</h3>
+  <div class="sub">Move the sliders to see immediate revenue impact at each grade level.</div>
+
+  <div class="util-slider-wrap"><label>Assistant Eco (2 people, £60/hr)</label><input type="range" min="40" max="90" value="65" step="1" id="u-asst" oninput="calcUtil()"><div class="rv" id="uv-asst">65%</div></div>
+  <div class="util-slider-wrap"><label>Eco Consultant (5 people, £70/hr)</label><input type="range" min="40" max="95" value="80" step="1" id="u-eco" oninput="calcUtil()"><div class="rv" id="uv-eco">80%</div></div>
+  <div class="util-slider-wrap"><label>Senior Eco (2 people, £77.50/hr)</label><input type="range" min="40" max="95" value="80" step="1" id="u-seco" oninput="calcUtil()"><div class="rv" id="uv-seco">80%</div></div>
+  <div class="util-slider-wrap"><label>Senior Arb (1 person, £77.50/hr)</label><input type="range" min="40" max="95" value="80" step="1" id="u-sarb" oninput="calcUtil()"><div class="rv" id="uv-sarb">80%</div></div>
+  <div class="util-slider-wrap"><label>Arb Consultant (1 person, £70/hr)</label><input type="range" min="40" max="95" value="80" step="1" id="u-arb" oninput="calcUtil()"><div class="rv" id="uv-arb">80%</div></div>
+  <div class="util-slider-wrap"><label>Director (1 person, £105/hr)</label><input type="range" min="30" max="70" value="50" step="1" id="u-dir" oninput="calcUtil()"><div class="rv" id="uv-dir">50%</div></div>
+  <div class="util-slider-wrap"><label>Fee rate multiplier</label><input type="range" min="90" max="115" value="100" step="1" id="u-rate" oninput="calcUtil()"><div class="rv" id="uv-rate">100%</div></div>
+
+  <div class="revenue-output" id="util-output"></div>
+</div>
+
+<div class="panel">
+  <h3>Utilisation by person — target tracker</h3>
+  <div class="sub">These are the individual weekly chargeable hour targets each person must hit. Based on 39.5hr week at target utilisation rate.</div>
+  <div style="overflow-x:auto">
+  <table class="t">
+    <thead><tr><th>Name</th><th>Grade</th><th>Target util%</th><th>Chargeable hrs/week</th><th>Chargeable hrs/year</th><th>Rate/hr</th><th>Target annual revenue</th></tr></thead>
+    <tbody>
+      <tr><td>Felicity Humphries</td><td>Asst Eco Consultant</td><td>65%</td><td>25.7</td><td>1,169</td><td>£60</td><td class="green">£70,140</td></tr>
+      <tr><td>Emma Hughes</td><td>Asst Eco Consultant</td><td>65%</td><td>25.7</td><td>1,169</td><td>£60</td><td class="green">£70,140</td></tr>
+      <tr><td>Rowan Finch</td><td>Eco Consultant</td><td>80%</td><td>31.6</td><td>1,438</td><td>£70</td><td class="green">£100,660</td></tr>
+      <tr><td>Luke Waddison</td><td>Eco Consultant</td><td>80%</td><td>31.6</td><td>1,438</td><td>£70</td><td class="green">£100,660</td></tr>
+      <tr><td>Francessca Aldridge</td><td>Eco Consultant (4 days)</td><td>80%</td><td>25.2</td><td>1,150</td><td>£70</td><td class="green">£80,500</td></tr>
+      <tr><td>Sebastian Channell</td><td>Eco Consultant</td><td>80%</td><td>31.6</td><td>1,438</td><td>£70</td><td class="green">£100,660</td></tr>
+      <tr><td>Dominic Martens</td><td>Eco Consultant</td><td>80%</td><td>31.6</td><td>1,438</td><td>£70</td><td class="green">£100,660</td></tr>
+      <tr><td>Natalie Sabin</td><td>Senior Eco (20hrs)</td><td>80%</td><td>16.0</td><td>726</td><td>£77.50</td><td class="green">£56,265</td></tr>
+      <tr><td>Katrina Wells</td><td>Senior Eco Consultant</td><td>80%</td><td>31.6</td><td>1,438</td><td>£77.50</td><td class="green">£111,445</td></tr>
+      <tr><td>Michael Nicklin</td><td>Senior Arb Consultant</td><td>80%</td><td>31.6</td><td>1,438</td><td>£77.50</td><td class="green">£111,445</td></tr>
+      <tr><td>Rebekah Bristow</td><td>Arb Consultant</td><td>80%</td><td>31.6</td><td>1,438</td><td>£70</td><td class="green">£100,660</td></tr>
+      <tr><td>Peter Wharton</td><td>Director</td><td>50%</td><td>19.75</td><td>899</td><td>£105</td><td class="green">£94,395</td></tr>
+      <tr class="bold" style="background:var(--color-background-secondary)"><td colspan="6">Total target fee revenue</td><td class="green">£1,097,630</td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+</div>
+
+<!-- PAGE: KPI FRAMEWORK -->
+<div id="pg-kpi" class="page">
+<div class="sec">KPI framework — three levels per role</div>
+<div class="note-box">Level 1 = entry into grade / probationary completion. Level 2 = fully competent, performing at midpoint standard. Level 3 = exceeding expectations, approaching next grade. Progression between levels triggers salary movement within the band. Movement to the next grade requires a formal promotion assessment.</div>
+
+<div class="kpi-card">
+  <div class="kpi-header"><h4>Assistant Ecological / Arboricultural Consultant</h4><span class="role-tag rt-all">All disciplines</span></div>
+  <div class="kpi-body">
+    <div class="level-grid">
+      <div class="level-box lv1"><h5>Level 1 — Foundation</h5><ul>
+        <li>Completes supervised surveys accurately</li>
+        <li>Report sections completed on time</li>
+        <li>Utilisation: 60% chargeable</li>
+        <li>Zero client complaints</li>
+        <li>Studying toward TechArborA / ACIEEM</li>
+        <li>Attends all training sessions</li>
+      </ul><div class="salary">Eco: £25,000 (L1)<br>Arb: £26,000 (L1)</div></div>
+      <div class="level-box lv2"><h5>Level 2 — Developing</h5><ul>
+        <li>Independent survey capability confirmed</li>
+        <li>Reports require minimal QA revision</li>
+        <li>Utilisation: 65% chargeable</li>
+        <li>Positive client feedback on record</li>
+        <li>Professional qualification achieved or imminent</li>
+        <li>Supports senior staff on site</li>
+      </ul><div class="salary">Eco: £27,000 (L2)<br>Arb: £28,500 (L2)</div></div>
+      <div class="level-box lv3"><h5>Level 3 — Ready to progress</h5><ul>
+        <li>Leads small projects with oversight</li>
+        <li>Utilisation: 68%+ chargeable</li>
+        <li>Qualification achieved</li>
+        <li>Demonstrates commercial awareness</li>
+        <li>Mentors newer assistants</li>
+        <li>Ready for Consultant grade assessment</li>
+      </ul><div class="salary">Eco: £29,000 (L3)<br>Arb: £31,000 (L3)</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="kpi-card">
+  <div class="kpi-header"><h4>Ecological / Arboricultural Consultant</h4><span class="role-tag rt-all">All disciplines</span></div>
+  <div class="kpi-body">
+    <div class="level-grid">
+      <div class="level-box lv1"><h5>Level 1 — Established</h5><ul>
+        <li>Manages own project workload</li>
+        <li>Utilisation: 75% chargeable</li>
+        <li>Reports pass QA first time &gt;80%</li>
+        <li>ACIEEM / TechArborA held</li>
+        <li>Client communication competent</li>
+        <li>Understands own fee targets</li>
+      </ul><div class="salary">Eco: £29,000 (L1)<br>Arb: £30,000 (L1)</div></div>
+      <div class="level-box lv2"><h5>Level 2 — Competent</h5><ul>
+        <li>Hits 80% utilisation consistently</li>
+        <li>Reports pass QA first time &gt;90%</li>
+        <li>Manages client relationships independently</li>
+        <li>BNG metric competent (eco)</li>
+        <li>Contributes to proposals/quotes</li>
+        <li>No scope creep / fee overruns</li>
+      </ul><div class="salary">Eco: £33,000 (L2)<br>Arb: £33,000 (L2)</div></div>
+      <div class="level-box lv3"><h5>Level 3 — High performer</h5><ul>
+        <li>Exceeds 80% utilisation</li>
+        <li>Generates repeat client enquiries</li>
+        <li>Mentors assistants effectively</li>
+        <li>Identifies additional scope opportunities</li>
+        <li>Working toward MCIEEM / MArborA</li>
+        <li>Ready for Senior grade assessment</li>
+      </ul><div class="salary">Eco: £37,500 (L3)<br>Arb: £36,000 (L3)</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="kpi-card">
+  <div class="kpi-header"><h4>Senior Ecological / Arboricultural Consultant</h4><span class="role-tag rt-all">All disciplines</span></div>
+  <div class="kpi-body">
+    <div class="level-grid">
+      <div class="level-box lv1"><h5>Level 1 — Senior foundation</h5><ul>
+        <li>Technical lead on assigned projects</li>
+        <li>QA reviews for consultants</li>
+        <li>Utilisation: 75% chargeable</li>
+        <li>MCIEEM / MArborA held or imminent</li>
+        <li>Manages 1–2 direct reports</li>
+        <li>Project delivery on fee and programme</li>
+      </ul><div class="salary">Eco: £38,000 (L1)<br>Arb: £41,000 (L1)</div></div>
+      <div class="level-box lv2"><h5>Level 2 — Senior competent</h5><ul>
+        <li>Hits 80% utilisation consistently</li>
+        <li>QA pass rate &gt;95% on own reports</li>
+        <li>Line manages 2–3 staff effectively</li>
+        <li>Wins repeat instructions from clients</li>
+        <li>BNG specialist / expert in discipline area</li>
+        <li>Licence holder (eco) / complex AIA (arb)</li>
+      </ul><div class="salary">Eco: £40,000 (L2)<br>Arb: £43,000 (L2)</div></div>
+      <div class="level-box lv3"><h5>Level 3 — Principal ready</h5><ul>
+        <li>Contributes to business development</li>
+        <li>Manages complex multi-discipline projects</li>
+        <li>Mentors whole team in specialism</li>
+        <li>Expert witness capability emerging</li>
+        <li>Multiple licences (eco) / FArborA path</li>
+        <li>Ready for Principal assessment</li>
+      </ul><div class="salary">Eco: £43,000 (L3)<br>Arb: £46,000 (L3)</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="kpi-card">
+  <div class="kpi-header"><h4>Principal Ecological / Arboricultural Consultant</h4><span class="role-tag rt-all">Technical lead + QA + line management</span></div>
+  <div class="kpi-body">
+    <div class="level-grid">
+      <div class="level-box lv1"><h5>Level 1 — Principal established</h5><ul>
+        <li>Technical authority for discipline</li>
+        <li>QA sign-off for all senior reports</li>
+        <li>Utilisation: 65% (management load)</li>
+        <li>Line manages Senior + team</li>
+        <li>P&amp;L awareness for discipline</li>
+        <li>MCIEEM / FArborA held</li>
+      </ul><div class="salary">Eco: £46,000–£49,000<br>Arb: £44,000–£47,000</div></div>
+      <div class="level-box lv2"><h5>Level 2 — Principal competent</h5><ul>
+        <li>Discipline revenue target achieved</li>
+        <li>Team utilisation on target</li>
+        <li>Leads proposals and fee negotiation</li>
+        <li>External profile / publications / CPD</li>
+        <li>Retains key strategic clients</li>
+        <li>Zero regulatory compliance issues</li>
+      </ul><div class="salary">Eco: £49,000–£54,000<br>Arb: £47,000–£51,000</div></div>
+      <div class="level-box lv3"><h5>Level 3 — Associate Director ready</h5><ul>
+        <li>Discipline exceeds revenue target by 10%+</li>
+        <li>Team development measurably improving</li>
+        <li>Strategic client relationships owned</li>
+        <li>Expert witness / public inquiry experience</li>
+        <li>Business plan contribution at board level</li>
+        <li>Ready for Associate Director assessment</li>
+      </ul><div class="salary">Eco: £54,000–£58,000<br>Arb: £51,000–£54,000</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="kpi-card">
+  <div class="kpi-header"><h4>Support roles — Project &amp; Ecology Coordinators, Finance &amp; Admin</h4><span class="role-tag rt-all">Support</span></div>
+  <div class="kpi-body">
+    <div class="level-grid">
+      <div class="level-box lv1"><h5>Level 1</h5><ul>
+        <li>All tasks completed on time</li>
+        <li>Systems used accurately (LEAF etc.)</li>
+        <li>Zero client-facing errors</li>
+        <li>Proactive communication to team</li>
+      </ul><div class="salary">Band min to min+15%</div></div>
+      <div class="level-box lv2"><h5>Level 2</h5><ul>
+        <li>Proactively improves processes</li>
+        <li>Supports multiple senior staff efficiently</li>
+        <li>Financial reporting accurate and timely</li>
+        <li>Positive team feedback consistently</li>
+      </ul><div class="salary">Band midpoint ±5%</div></div>
+      <div class="level-box lv3"><h5>Level 3</h5><ul>
+        <li>Drives efficiency measurably</li>
+        <li>Takes ownership without instruction</li>
+        <li>Trains others in systems/processes</li>
+        <li>Strategic contribution to operations</li>
+      </ul><div class="salary">Band mid to max</div></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- PAGE: SALARY PROGRESSION -->
+<div id="pg-salary" class="page">
+<div class="sec">Salary progression mechanics — how movement through bands works</div>
+<div class="panel">
+  <h3>Progression rules — non-negotiable principles</h3>
+  <div class="sub">These rules govern how and when salary moves within and between bands. They must be communicated clearly to the team at the start of the financial year.</div>
+  <div style="overflow-x:auto">
+  <table class="t">
+    <thead><tr><th>Trigger</th><th>What happens</th><th>Timing</th><th>Who approves</th></tr></thead>
+    <tbody>
+      <tr><td>Level 1 → Level 2 within grade</td><td>Salary moves to midpoint ±5% based on appraisal score</td><td>6-month appraisal</td><td>Line manager + Director</td></tr>
+      <tr><td>Level 2 → Level 3 within grade</td><td>Salary moves toward band maximum. Requires 3 consecutive appraisal periods at Level 2+</td><td>Annual appraisal</td><td>Laura Carter + Director</td></tr>
+      <tr><td>Grade promotion (e.g. Consultant → Senior)</td><td>New band minimum or negotiated entry point. Formal promotion assessment required.</td><td>Annual appraisal only</td><td>Director sign-off</td></tr>
+      <tr><td>At band maximum</td><td>No further base increase until promotion. Bonus and one-off recognition available.</td><td>Annual review</td><td>Director</td></tr>
+      <tr><td>Below band minimum (existing staff)</td><td>Immediate correction to band minimum — no appraisal gate required.</td><td>April 2026</td><td>Director — urgent</td></tr>
+      <tr><td>New hire into grade</td><td>Band minimum for unproven candidates; up to midpoint for evidenced experience</td><td>On appointment</td><td>Director</td></tr>
+      <tr><td>Annual cost-of-living uplift</td><td>Bands reviewed annually in February for April implementation. Movement within band is separate from band uplift.</td><td>February each year</td><td>Director + accountant</td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<div class="two">
+  <div class="ib b"><h4>What progression is NOT</h4><p>Progression is not automatic with tenure. Time in role is not a KPI gate. A team member who has been at Consultant grade for 3 years but consistently performs at Level 1 does not progress to Level 2. Conversely, a high performer can move from Level 1 to Level 3 within 18 months if KPIs are consistently exceeded.</p></div>
+  <div class="ib g"><h4>How to communicate this to the team</h4><p>"Your salary progression is in your hands. We have published the KPIs for every level. We review performance every 6 months. If you hit the gates, you move. If you exceed them, we have a promotion conversation. There are no surprises and no favourites."</p></div>
+</div>
+</div>
+
+<!-- PAGE: BONUS MODEL -->
+<div id="pg-bonus" class="page">
+<div class="sec">Bonus structure — confirmed live for 2026/27</div>
+<div class="panel">
+  <h3>How the bonus works — confirmed model</h3>
+  <div class="sub">Two payment events per year. Both are conditional on the company hitting its financial targets. Both have been paid in 2025/26 — this is a confirmed, live scheme.</div>
+  <div style="overflow-x:auto">
+  <table class="t">
+    <thead><tr><th>Payment</th><th>Trigger</th><th>Amount</th><th>Timing</th><th>Condition</th></tr></thead>
+    <tbody>
+      <tr><td class="bold">6-month bonus</td><td>Company achieves H1 financial target (net profit on track)</td><td>0.5 × monthly salary</td><td>October 2026</td><td>H1 revenue ≥ £650k AND net profit margin on track</td></tr>
+      <tr><td class="bold">Year-end bonus</td><td>Company achieves full-year financial target</td><td>1.0 × monthly salary</td><td>April / May 2027</td><td>Full year revenue ≥ £1.3m AND net profit ≥ £300k</td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<div class="panel">
+  <h3>Bonus cost modelling — at target performance</h3>
+  <div class="sub">Total bonus liability at current salaries if both targets are hit.</div>
+  <div style="overflow-x:auto">
+  <table class="t">
+    <thead><tr><th>Name</th><th>Annual salary</th><th>Monthly salary</th><th>6-month bonus (0.5×)</th><th>Year-end bonus (1×)</th><th>Total bonus</th></tr></thead>
+    <tbody id="bonusBody"></tbody>
+    <tfoot><tr style="font-weight:600;background:var(--color-background-secondary)"><td>TOTAL</td><td id="bt-sal">—</td><td>—</td><td id="bt-6m">—</td><td id="bt-ye">—</td><td id="bt-tot">—</td></tr></tfoot>
+  </table>
+  </div>
+  <div class="note-box" style="margin-top:10px">Total bonus liability with employer NI (13.8%) = approximately <span id="bonus-ni">—</span>. This must be reserved monthly — approximately <span id="bonus-monthly">—</span> set aside each month to fund both payments.</div>
+</div>
+
+<div class="two">
+  <div class="ib g"><h4>Why this bonus model is strong</h4><p>It is conditional on company performance — so it self-funds. It pays out twice a year which maintains engagement. It is transparent and the same for everyone (proportionate to salary). It directly connects individual effort to company outcome. It has already been paid — which means the team trusts it.</p></div>
+  <div class="ib a"><h4>One risk to manage</h4><p>If the 6-month target is missed, team motivation can dip in H2. Consider a stretch incentive: if H1 is missed but the full year is still achieved, the 6-month bonus is paid alongside the year-end bonus. This keeps effort high even if Q1/Q2 are difficult.</p></div>
+</div>
+</div>
+
+<!-- PAGE: PRIORITY ACTIONS -->
+<div id="pg-actions" class="page">
+<div class="coach-box">
+  <h3>Priority actions — Q1 2026/27 (April–June). Non-negotiable.</h3>
+  <div class="ci"><span class="ctag must">Week 1</span><p><strong>Implement fee rate increase of 8% across all charge-out rates from 1 April.</strong> New rates: Assistant £65/hr, Consultant £76/hr, Senior £84/hr, Principal £97/hr, Director £105/hr. Issue updated fee schedule to all clients. This single action adds approximately £90k to annual revenue.</p></div>
+  <div class="ci"><span class="ctag must">Week 1</span><p><strong>Correct Michael Nicklin's salary to Senior Arboricultural Consultant band minimum of £36,000.</strong> He is currently £4,000 below minimum for his grade. This is an active retention risk. Cost: £4,000 + £552 employer NI = £4,552/year. Do not wait for the October review.</p></div>
+  <div class="ci"><span class="ctag must">Week 2</span><p><strong>Introduce weekly utilisation tracking.</strong> Without this, the business plan cannot be managed. Minimum requirement: every fee-earner logs chargeable hours weekly in LEAF or equivalent. A simple dashboard showing actual vs target utilisation per person must be visible to Laura Carter and Peter Wharton by week 3 of April.</p></div>
+  <div class="ci"><span class="ctag must">April</span><p><strong>Issue all team members their individual KPI document.</strong> Each person receives: their current level (1, 2 or 3), the gates required to move to the next level, their current salary position within the band, and their personal revenue target for the year. This is the single most important culture action of the year.</p></div>
+  <div class="ci"><span class="ctag must">April</span><p><strong>Advertise and recruit the vacant Arboricultural Consultant post.</strong> This post, filled by Q2, adds approximately £100k in annual revenue at current rates. At the salary band minimum of £29,000 plus NI and pension (~£34k total cost), the return on investment is approximately 3:1 in year one. Every month this post is vacant costs the business ~£8,300 in lost revenue.</p></div>
+  <div class="ci"><span class="ctag watch">Q1</span><p><strong>Communicate the salary band framework to the whole team.</strong> Every person should know: their band, their level, what they need to do to progress. This removes the single biggest source of salary dissatisfaction — uncertainty. Do this in a team meeting, supported by individual 1:1 conversations with Laura Carter.</p></div>
+  <div class="ci"><span class="ctag watch">Q1</span><p><strong>Phase salary increases — April tranche.</strong> Move all staff below band minimum to minimum immediately (Michael Nicklin, review Rowan Finch, Luke Waddison). Move staff significantly below midpoint to within 5% of midpoint. Total April cost estimated £18,000–£22,000 additional annual salary. October tranche conditional on H1 revenue ≥ £650k.</p></div>
+  <div class="ci"><span class="ctag plan">Q2</span><p><strong>BNG as a separately priced service line.</strong> By July 2026, BNG metric assessments, biodiversity plans and credit advice should be on a named fee schedule, priced at £1,800–£4,500 per instruction depending on complexity. This makes BNG revenue visible, trackable and growing. Target: £120k BNG revenue in 2026/27 as a named line.</p></div>
+  <div class="ci"><span class="ctag plan">Q2</span><p><strong>First quarterly management review against this plan.</strong> By end of June: actual revenue vs £310k Q1 target reviewed. Utilisation actuals vs targets reviewed per person. KPI progress reviewed for each team member. Salary increase October decision confirmed or deferred based on H1 trajectory.</p></div>
+  <div class="ci"><span class="ctag plan">Q3–Q4</span><p><strong>Associate Director pathway opened.</strong> By October 2026, identify the strongest Senior or Principal-grade individual in the ecology team as the first Associate Director candidate. Set out the formal pathway with a 12-month timeline. This creates internal progression visible to the whole team and removes dependency on Peter for all senior decisions.</p></div>
+</div>
+
+<div class="sec">At-a-glance — what success looks like by quarter</div>
+<div style="overflow-x:auto">
+<table class="t">
+  <thead><tr><th>Quarter</th><th>Revenue target</th><th>Key milestone</th><th>People action</th><th>Commercial action</th></tr></thead>
+  <tbody>
+    <tr><td class="bold">Q1 Apr–Jun</td><td class="green">£310,000</td><td>Fee rates increased. Utilisation tracking live. KPIs issued.</td><td>Michael Nicklin salary corrected. Arb vacancy advertised.</td><td>New fee schedule to all clients. BNG pricing developed.</td></tr>
+    <tr><td class="bold">Q2 Jul–Sep</td><td class="green">£350,000</td><td>H1 total ≥ £650k. 6-month bonus trigger assessed.</td><td>New Arb Consultant in post. October salary review confirmed.</td><td>BNG as named service line. Strategic client review.</td></tr>
+    <tr><td class="bold">Q3 Oct–Dec</td><td class="amber">£320,000</td><td>October salary increases applied. Associate Director pathway opened.</td><td>6-month appraisals completed. Level assessments issued.</td><td>2027/28 pipeline building. Fee rates reviewed for next year.</td></tr>
+    <tr><td class="bold">Q4 Jan–Mar</td><td class="green">£320,000</td><td>Full year £1.3m target achieved. Year-end bonus confirmed.</td><td>Annual appraisals. Promotion decisions. Band review for 2027/28.</td><td>Next year plan presented to team. Salary bands published for 2027/28.</td></tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+function showPage(id,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('pg-'+id).classList.add('active');
+  el.classList.add('active');
+  if(id==='util') calcUtil();
+  if(id==='bonus') buildBonus();
+}
+
+function calcUtil(){
+  const hrs=1798;
+  const uAsst=parseInt(document.getElementById('u-asst').value)/100;
+  const uEco=parseInt(document.getElementById('u-eco').value)/100;
+  const uSeco=parseInt(document.getElementById('u-seco').value)/100;
+  const uSarb=parseInt(document.getElementById('u-sarb').value)/100;
+  const uArb=parseInt(document.getElementById('u-arb').value)/100;
+  const uDir=parseInt(document.getElementById('u-dir').value)/100;
+  const rMult=parseInt(document.getElementById('u-rate').value)/100;
+
+  document.getElementById('uv-asst').textContent=Math.round(uAsst*100)+'%';
+  document.getElementById('uv-eco').textContent=Math.round(uEco*100)+'%';
+  document.getElementById('uv-seco').textContent=Math.round(uSeco*100)+'%';
+  document.getElementById('uv-sarb').textContent=Math.round(uSarb*100)+'%';
+  document.getElementById('uv-arb').textContent=Math.round(uArb*100)+'%';
+  document.getElementById('uv-dir').textContent=Math.round(uDir*100)+'%';
+  document.getElementById('uv-rate').textContent=Math.round(rMult*100)+'%';
+
+  const r={asst:60*rMult,eco:70*rMult,seco:77.5*rMult,sarb:77.5*rMult,arb:70*rMult,dir:105};
+  const rev={
+    asst: Math.round(hrs*uAsst*r.asst*2),
+    eco:  Math.round(hrs*uEco*r.eco*5),
+    seco: Math.round(hrs*uSeco*r.seco*2),
+    sarb: Math.round(hrs*uSarb*r.sarb*1),
+    arb:  Math.round(hrs*uArb*r.arb*1),
+    dir:  Math.round(hrs*uDir*r.dir*1)
+  };
+  const total=Object.values(rev).reduce((a,b)=>a+b,0)+41000+42000;
+  const fmt=n=>'£'+Math.round(n).toLocaleString('en-GB');
+  const col=v=>v>=1300000?'green':v>=1100000?'amber':'red';
+  document.getElementById('util-output').innerHTML=`
+    <div class="ro-card"><div class="rl">Asst Eco (×2)</div><div class="rv2">${fmt(rev.asst)}</div></div>
+    <div class="ro-card"><div class="rl">Eco Consultant (×5)</div><div class="rv2">${fmt(rev.eco)}</div></div>
+    <div class="ro-card"><div class="rl">Senior Eco (×2)</div><div class="rv2">${fmt(rev.seco)}</div></div>
+    <div class="ro-card"><div class="rl">Senior Arb (×1)</div><div class="rv2">${fmt(rev.sarb)}</div></div>
+    <div class="ro-card"><div class="rl">Arb Consultant (×1)</div><div class="rv2">${fmt(rev.arb)}</div></div>
+    <div class="ro-card"><div class="rl">Director</div><div class="rv2">${fmt(rev.dir)}</div></div>
+    <div class="ro-card"><div class="rl">+ mileage/other</div><div class="rv2">£83,000</div></div>
+    <div class="ro-card" style="border:2px solid #1c3444"><div class="rl" style="font-weight:700">Total turnover</div><div class="rv2 ${col(total)}">${fmt(total)}</div></div>
+  `;
+}
+
+const SALARIES=[
+  {name:'Peter Wharton',sal:104750},
+  {name:'Laura Carter',sal:46000},
+  {name:'Michael Nicklin',sal:32000},
+  {name:'Rebekah Bristow',sal:28000},
+  {name:'Natalie Sabin',sal:20000},
+  {name:'Katrina Wells',sal:42000},
+  {name:'Rowan Finch',sal:28500},
+  {name:'Luke Waddison',sal:28000},
+  {name:'Francessca Aldridge',sal:22680},
+  {name:'Sebastian Channell',sal:30000},
+  {name:'Dominic Martens',sal:34500},
+  {name:'Emma Hughes',sal:27500},
+  {name:'Felicity Humphries',sal:26500},
+  {name:'Sarah Kirk-Griffith',sal:29150},
+  {name:'Maddie Bray',sal:25000},
+  {name:'Imigin Toney',sal:15873},
+];
+
+function buildBonus(){
+  const tbody=document.getElementById('bonusBody');
+  tbody.innerHTML='';
+  let totSal=0,tot6m=0,totYe=0,totTot=0;
+  const fmt=n=>'£'+Math.round(n).toLocaleString('en-GB');
+  SALARIES.forEach(p=>{
+    const monthly=p.sal/12;
+    const b6=monthly*0.5;
+    const bye=monthly*1.0;
+    const tot=b6+bye;
+    totSal+=p.sal; tot6m+=b6; totYe+=bye; totTot+=tot;
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${p.name}</td><td>${fmt(p.sal)}</td><td>${fmt(monthly)}</td><td class="green">${fmt(b6)}</td><td class="green">${fmt(bye)}</td><td style="font-weight:600">${fmt(tot)}</td>`;
+    tbody.appendChild(tr);
+  });
+  document.getElementById('bt-sal').textContent='£'+Math.round(totSal).toLocaleString();
+  document.getElementById('bt-6m').textContent='£'+Math.round(tot6m).toLocaleString();
+  document.getElementById('bt-ye').textContent='£'+Math.round(totYe).toLocaleString();
+  document.getElementById('bt-tot').textContent='£'+Math.round(totTot).toLocaleString();
+  const withNI=totTot*1.138;
+  document.getElementById('bonus-ni').textContent='£'+Math.round(withNI).toLocaleString();
+  document.getElementById('bonus-monthly').textContent='£'+Math.round(withNI/12).toLocaleString();
+}
+
+window.addEventListener('load',()=>{
+  calcUtil();
+  buildBonus();
+});
+</script>
