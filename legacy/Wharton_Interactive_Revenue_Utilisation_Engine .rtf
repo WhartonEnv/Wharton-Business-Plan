@@ -1,0 +1,832 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2869
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 <!DOCTYPE html>\
+<html lang="en">\
+<head>\
+<meta charset="UTF-8">\
+<meta name="viewport" content="width=device-width,initial-scale=1">\
+<title>Wharton NIC \'97 Revenue Engine</title>\
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">\
+<style>\
+:root\{\
+  --night-sky:#21314D;\
+  --gold:#EAAB00;\
+  --canopy:#175E54;\
+  --sky:#5C7F92;\
+  --storm:#D9D9D9;\
+  --meadow:#B9BE9C;\
+  --teal:#7BBBB2;\
+  --red:#AA272F;\
+  --white:#ffffff;\
+  --bg:#F4F5F2;\
+  --card:#ffffff;\
+  --border:#E2E5DF;\
+  --text:#21314D;\
+  --muted:#5C7F92;\
+  --green:#175E54;\
+  --amber:#EAAB00;\
+  --danger:#AA272F;\
+\}\
+*\{box-sizing:border-box;margin:0;padding:0\}\
+body\{font-family:'Raleway',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh\}\
+\
+/* LAYOUT */\
+.app\{display:flex;min-height:100vh\}\
+.sidebar\{width:220px;background:var(--night-sky);flex-shrink:0;display:flex;flex-direction:column;position:sticky;top:0;height:100vh\}\
+.main\{flex:1;overflow:auto\}\
+\
+/* SIDEBAR */\
+.sb-logo\{padding:20px 16px 16px;border-bottom:1px solid rgba(255,255,255,.1)\}\
+.sb-logo img\{height:28px;width:auto\}\
+.sb-role\{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.1)\}\
+.sb-role-label\{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px\}\
+.role-btns\{display:flex;flex-direction:column;gap:4px\}\
+.rb\{background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.7);font-family:'Raleway',sans-serif;font-size:10px;font-weight:600;padding:6px 10px;border-radius:4px;cursor:pointer;text-align:left;letter-spacing:.5px;transition:all .15s\}\
+.rb.active\{background:var(--gold);color:var(--night-sky);border-color:var(--gold)\}\
+.rb:hover:not(.active)\{background:rgba(255,255,255,.08);color:#fff\}\
+.sb-nav\{padding:12px 0;flex:1\}\
+.nav-item\{display:flex;align-items:center;gap:8px;padding:9px 16px;font-size:11px;font-weight:600;color:rgba(255,255,255,.55);cursor:pointer;border-left:3px solid transparent;transition:all .15s;letter-spacing:.3px\}\
+.nav-item.active\{color:#fff;border-left-color:var(--gold);background:rgba(255,255,255,.06)\}\
+.nav-item:hover:not(.active)\{color:rgba(255,255,255,.85);background:rgba(255,255,255,.04)\}\
+.nav-dot\{width:6px;height:6px;border-radius:50%;flex-shrink:0\}\
+.sb-footer\{padding:12px 16px;border-top:1px solid rgba(255,255,255,.1)\}\
+.sb-footer p\{font-size:8px;color:rgba(255,255,255,.3);letter-spacing:.5px\}\
+\
+/* HEADER */\
+.page-header\{background:var(--night-sky);padding:18px 28px;display:flex;justify-content:space-between;align-items:center\}\
+.ph-left h1\{font-size:16px;font-weight:800;color:#fff;letter-spacing:-.2px;text-transform:uppercase\}\
+.ph-left p\{font-size:11px;color:rgba(255,255,255,.5);margin-top:2px\}\
+.ph-right\{display:flex;gap:8px;align-items:center\}\
+.target-chip\{background:rgba(234,171,0,.15);border:1px solid rgba(234,171,0,.4);color:var(--gold);font-size:10px;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:.5px\}\
+\
+/* CONTENT */\
+.content\{padding:20px 24px 40px\}\
+.section-title\{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--sky);margin:22px 0 10px\}\
+.card\{background:var(--card);border-radius:8px;border:1px solid var(--border);padding:16px 18px;margin-bottom:12px\}\
+.card-title\{font-size:12px;font-weight:700;color:var(--night-sky);margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px\}\
+.card-sub\{font-size:11px;color:var(--muted);margin-bottom:14px;line-height:1.5\}\
+\
+/* METRIC CARDS */\
+.metrics\{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:14px\}\
+.metric\{background:var(--card);border-radius:8px;padding:14px 16px;border:1px solid var(--border);border-top:3px solid var(--night-sky)\}\
+.metric.gold\{border-top-color:var(--gold)\}\
+.metric.green\{border-top-color:var(--canopy)\}\
+.metric.red\{border-top-color:var(--red)\}\
+.metric.sky\{border-top-color:var(--sky)\}\
+.metric .ml\{font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:4px\}\
+.metric .mv\{font-size:20px;font-weight:800;color:var(--night-sky);line-height:1\}\
+.metric .ms\{font-size:10px;margin-top:4px;font-weight:600\}\
+.ms.up\{color:var(--canopy)\}\
+.ms.dn\{color:var(--red)\}\
+.ms.warn\{color:var(--amber)\}\
+\
+/* SLIDERS */\
+.slider-section\{display:grid;grid-template-columns:1fr 1fr;gap:16px\}\
+.grade-block\{background:var(--card);border-radius:8px;border:1px solid var(--border);overflow:hidden\}\
+.gb-header\{padding:10px 14px;display:flex;justify-content:space-between;align-items:center\}\
+.gb-title\{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:#fff\}\
+.gb-rev\{font-size:13px;font-weight:800;color:var(--gold)\}\
+.gb-body\{padding:12px 14px\}\
+.sl-row\{display:flex;align-items:center;gap:8px;margin-bottom:9px\}\
+.sl-label\{font-size:10px;font-weight:600;color:var(--muted);width:80px;flex-shrink:0\}\
+.sl-track\{flex:1;position:relative\}\
+input[type=range]\{width:100%;-webkit-appearance:none;height:5px;border-radius:10px;outline:none;cursor:pointer\}\
+input[type=range]::-webkit-slider-thumb\{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;cursor:pointer;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.2)\}\
+.sl-val\{font-size:11px;font-weight:800;min-width:38px;text-align:right;color:var(--night-sky)\}\
+.sl-hours\{font-size:10px;color:var(--muted);margin-top:-6px;margin-bottom:4px;text-align:right;padding-right:2px\}\
+.people-row\{display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--border)\}\
+.people-btns\{display:flex;gap:4px\}\
+.pb\{width:24px;height:24px;border-radius:4px;border:1px solid var(--border);background:var(--bg);font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--night-sky)\}\
+.pb:hover\{background:var(--night-sky);color:#fff\}\
+.people-count\{font-size:16px;font-weight:800;color:var(--night-sky);min-width:20px;text-align:center\}\
+\
+/* RATE MULTIPLIER */\
+.rate-banner\{background:var(--night-sky);border-radius:8px;padding:14px 16px;margin-bottom:14px;display:flex;align-items:center;gap:16px\}\
+.rate-banner .rl\{font-size:11px;font-weight:700;color:#fff;width:150px;flex-shrink:0\}\
+.rate-banner input[type=range]\{flex:1\}\
+.rate-banner input[type=range]::-webkit-slider-runnable-track\{background:rgba(255,255,255,.2)\}\
+.rate-banner input[type=range]::-webkit-slider-thumb\{background:var(--gold)\}\
+.rate-val\{font-size:14px;font-weight:800;color:var(--gold);min-width:48px;text-align:right\}\
+.rate-sub\{font-size:10px;color:rgba(255,255,255,.5);margin-left:auto\}\
+\
+/* WATERFALL */\
+.waterfall\{display:flex;gap:4px;align-items:flex-end;height:180px;margin:14px 0 8px\}\
+.wf-col\{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px\}\
+.wf-bar\{width:100%;border-radius:4px 4px 0 0;transition:height .3s;min-height:4px\}\
+.wf-label\{font-size:8.5px;font-weight:700;color:var(--muted);text-align:center;letter-spacing:.3px;text-transform:uppercase\}\
+.wf-value\{font-size:10px;font-weight:800;color:var(--night-sky);text-align:center\}\
+\
+/* TARGET BAR */\
+.tgt-row\{display:flex;align-items:center;gap:10px;margin-bottom:9px\}\
+.tgt-label\{font-size:10px;font-weight:600;color:var(--text);width:180px;flex-shrink:0\}\
+.tgt-track\{flex:1;height:14px;background:var(--storm);border-radius:20px;overflow:hidden\}\
+.tgt-fill\{height:100%;border-radius:20px;transition:width .3s\}\
+.tgt-pct\{font-size:10px;font-weight:800;min-width:80px;text-align:right\}\
+\
+/* TABLE */\
+table.dt\{width:100%;border-collapse:collapse;font-size:11px\}\
+table.dt th\{padding:8px 10px;text-align:left;font-size:9px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--border);background:var(--bg)\}\
+table.dt td\{padding:7px 10px;border-bottom:1px solid var(--border);color:var(--text)\}\
+table.dt tr:hover td\{background:#fafbf9\}\
+table.dt .bold\{font-weight:700;color:var(--night-sky)\}\
+table.dt tr.total td\{background:#EEF1EC;font-weight:800;color:var(--night-sky);border-top:2px solid var(--canopy)\}\
+\
+/* MONTHLY BARS */\
+.month-grid\{display:grid;grid-template-columns:repeat(12,1fr);gap:4px;margin:14px 0\}\
+.month-col\{display:flex;flex-direction:column;align-items:center;gap:3px\}\
+.month-bar-wrap\{height:80px;display:flex;align-items:flex-end;width:100%\}\
+.month-bar\{width:100%;border-radius:3px 3px 0 0;transition:height .3s\}\
+.month-label\{font-size:8px;font-weight:700;color:var(--muted);text-transform:uppercase\}\
+.month-val\{font-size:8px;font-weight:800;color:var(--night-sky)\}\
+\
+/* RAG */\
+.rag\{display:inline-block;width:8px;height:8px;border-radius:50%;flex-shrink:0\}\
+.rag.g\{background:#175E54\}\
+.rag.a\{background:#EAAB00\}\
+.rag.r\{background:#AA272F\}\
+\
+/* UTIL TABLE */\
+.util-row\{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border)\}\
+.util-row:last-child\{border-bottom:none\}\
+.util-name\{font-size:11px;font-weight:600;color:var(--text);width:160px;flex-shrink:0\}\
+.util-grade\{font-size:9px;color:var(--muted);width:130px;flex-shrink:0\}\
+.util-track\{flex:1;height:10px;background:var(--storm);border-radius:10px;overflow:hidden\}\
+.util-fill\{height:100%;border-radius:10px;transition:width .3s\}\
+.util-pct\{font-size:10px;font-weight:800;min-width:36px;text-align:right\}\
+.util-hrs\{font-size:9px;color:var(--muted);min-width:60px;text-align:right\}\
+\
+/* PAGES */\
+.pg\{display:none\}.pg.active\{display:block\}\
+\
+/* CALLOUT */\
+.callout\{border-radius:6px;padding:10px 14px;margin:10px 0;font-size:10.5px;line-height:1.6;font-weight:500\}\
+.callout.gold\{background:rgba(234,171,0,.12);border-left:3px solid var(--gold);color:#7a5500\}\
+.callout.green\{background:rgba(23,94,84,.1);border-left:3px solid var(--canopy);color:#0a3830\}\
+.callout.red\{background:rgba(170,39,47,.08);border-left:3px solid var(--red);color:#6a1016\}\
+.callout.sky\{background:rgba(92,127,146,.1);border-left:3px solid var(--sky);color:#2a4a5a\}\
+\
+/* TABS */\
+.inner-tabs\{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap\}\
+.it\{font-size:10px;font-weight:700;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:var(--card);color:var(--muted);cursor:pointer;letter-spacing:.4px;text-transform:uppercase\}\
+.it.active\{background:var(--night-sky);color:#fff;border-color:var(--night-sky)\}\
+</style>\
+</head>\
+<body>\
+<div class="app">\
+\
+<!-- SIDEBAR -->\
+<div class="sidebar">\
+  <div class="sb-logo">\
+    <img src="https://i.postimg.cc/kXqzBBXp/Asset-478-4x.png" alt="Wharton">\
+  </div>\
+  <div class="sb-role">\
+    <div class="sb-role-label">View as</div>\
+    <div class="role-btns">\
+      <button class="rb active" onclick="setRole('director',this)">Director</button>\
+      <button class="rb" onclick="setRole('cfo',this)">CFO View</button>\
+      <button class="rb" onclick="setRole('brand',this)">Brand Overview</button>\
+    </div>\
+  </div>\
+  <div class="sb-nav">\
+    <div class="nav-item active" onclick="showPage('revenue',this)"><div class="rag g"></div>Revenue Model</div>\
+    <div class="nav-item" onclick="showPage('utilisation',this)"><div class="rag a"></div>Utilisation</div>\
+    <div class="nav-item" onclick="showPage('monthly',this)"><div class="rag g"></div>Monthly Hours</div>\
+    <div class="nav-item" onclick="showPage('scenarios',this)"><div class="rag g"></div>Scenarios</div>\
+    <div class="nav-item" onclick="showPage('breakdown',this)"><div class="rag a"></div>Grade Breakdown</div>\
+  </div>\
+  <div class="sb-footer">\
+    <p>FY 2026/27 &nbsp;\'b7&nbsp; CONFIDENTIAL</p>\
+  </div>\
+</div>\
+\
+<!-- MAIN -->\
+<div class="main">\
+\
+<!-- HEADER -->\
+<div class="page-header">\
+  <div class="ph-left">\
+    <h1 id="page-title">Revenue Engine</h1>\
+    <p id="page-sub">Interactive fee earning model \'97 adjust multipliers to model scenarios</p>\
+  </div>\
+  <div class="ph-right">\
+    <div class="target-chip">TARGET \'a31,300,000</div>\
+    <div id="role-badge" style="background:rgba(23,94,84,.3);border:1px solid rgba(23,94,84,.6);color:#7BBBB2;font-size:10px;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:.5px">DIRECTOR VIEW</div>\
+  </div>\
+</div>\
+\
+<!-- ========== PAGE: REVENUE ========== -->\
+<div id="pg-revenue" class="pg active">\
+<div class="content">\
+\
+  <!-- GLOBAL RATE MULTIPLIER -->\
+  <div class="rate-banner">\
+    <div class="rl">Fee rate multiplier</div>\
+    <input type="range" id="g-rate" min="80" max="130" value="108" step="1" oninput="calc()">\
+    <div class="rate-val" id="g-rate-v">+8%</div>\
+    <div class="rate-sub">Base rates: Asst \'a360 \'b7 Cons \'a370 \'b7 Senior \'a377.50 \'b7 Principal \'a390 \'b7 Director \'a3105</div>\
+  </div>\
+\
+  <!-- LIVE SUMMARY -->\
+  <div class="section-title">Live output</div>\
+  <div class="metrics">\
+    <div class="metric gold"><div class="ml">Total turnover</div><div class="mv" id="m-tv">\'a30</div><div class="ms" id="m-tv-s"></div></div>\
+    <div class="metric green"><div class="ml">Fee revenue</div><div class="mv" id="m-fee">\'a30</div><div class="ms up">Fee-earners only</div></div>\
+    <div class="metric sky"><div class="ml">Gross profit (est.)</div><div class="mv" id="m-gp">\'a30</div><div class="ms" id="m-gm"></div></div>\
+    <div class="metric"><div class="ml">vs \'a31.3m target</div><div class="mv" id="m-gap">\'97</div><div class="ms" id="m-gap-s"></div></div>\
+    <div class="metric"><div class="ml">Total chargeable hrs</div><div class="mv" id="m-hrs">0</div><div class="ms up">All fee earners</div></div>\
+    <div class="metric"><div class="ml">Avg rev / person</div><div class="mv" id="m-rph">\'a30</div><div class="ms up">Fee earners only</div></div>\
+  </div>\
+\
+  <!-- TARGET PROGRESS -->\
+  <div class="section-title">Progress toward targets</div>\
+  <div class="card">\
+    <div class="card-title">Annual target tracking</div>\
+    <div id="target-bars"></div>\
+  </div>\
+\
+  <!-- GRADE SLIDERS -->\
+  <div class="section-title">Grade-level controls \'97 adjust utilisation & headcount</div>\
+  <div class="slider-section" id="grade-sliders"></div>\
+\
+</div>\
+</div>\
+\
+<!-- ========== PAGE: UTILISATION ========== -->\
+<div id="pg-utilisation" class="pg">\
+<div class="content">\
+  <div class="section-title">Utilisation by person</div>\
+  <div class="callout sky">Available hours per full-time fee-earner = 1,798/year (52 \'d7 39.5hrs, less 24 days leave + 8 bank holidays). Part-time staff are pro-rated to contracted hours.</div>\
+  <div class="card">\
+    <div class="card-title">Individual utilisation \'97 target vs model</div>\
+    <div class="card-sub">Based on current grade settings. Adjust sliders on the Revenue page to see changes here.</div>\
+    <div id="util-table"></div>\
+  </div>\
+  <div class="section-title">Utilisation by grade \'97 RAG summary</div>\
+  <div id="util-rag-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:14px"></div>\
+</div>\
+</div>\
+\
+<!-- ========== PAGE: MONTHLY HOURS ========== -->\
+<div id="pg-monthly" class="pg">\
+<div class="content">\
+  <div class="section-title">Monthly chargeable hours & revenue profile</div>\
+  <div class="callout gold">Monthly hours vary due to survey seasonality \'97 ecology is heavily peak-loaded in Q1/Q2 (April\'96September). Arboriculture is more evenly distributed. The model below uses a standard distribution which can be adjusted.</div>\
+\
+  <div class="inner-tabs">\
+    <div class="it active" onclick="setMonthTab('hours',this)">Hours per month</div>\
+    <div class="it" onclick="setMonthTab('revenue',this)">Revenue per month</div>\
+    <div class="it" onclick="setMonthTab('cumulative',this)">Cumulative vs target</div>\
+  </div>\
+\
+  <div class="card">\
+    <div class="card-title" id="month-chart-title">Chargeable hours per month \'97 all grades</div>\
+    <div class="card-sub" id="month-chart-sub">Based on current utilisation settings and seasonal distribution</div>\
+    <div class="month-grid" id="month-chart"></div>\
+  </div>\
+\
+  <div class="section-title">Monthly revenue & target comparison</div>\
+  <div class="card">\
+    <div style="overflow-x:auto">\
+    <table class="dt" id="monthly-table"></table>\
+    </div>\
+  </div>\
+</div>\
+</div>\
+\
+<!-- ========== PAGE: SCENARIOS ========== -->\
+<div id="pg-scenarios" class="pg">\
+<div class="content">\
+  <div class="section-title">Scenario comparison</div>\
+  <div class="callout sky">Three fixed scenarios compared against your current model. The current model updates in real time as you adjust sliders.</div>\
+  <div class="metrics" id="scenario-metrics"></div>\
+  <div class="card">\
+    <div class="card-title">Scenario P&L comparison</div>\
+    <div style="overflow-x:auto">\
+    <table class="dt" id="scenario-table"></table>\
+    </div>\
+  </div>\
+  <div class="card">\
+    <div class="card-title">What needs to be true for each scenario</div>\
+    <div id="scenario-narrative"></div>\
+  </div>\
+</div>\
+</div>\
+\
+<!-- ========== PAGE: GRADE BREAKDOWN ========== -->\
+<div id="pg-breakdown" class="pg">\
+<div class="content">\
+  <div class="section-title">Revenue contribution by grade</div>\
+  <div class="card">\
+    <div class="card-title">Grade-level revenue breakdown</div>\
+    <div style="overflow-x:auto">\
+    <table class="dt" id="breakdown-table"></table>\
+    </div>\
+  </div>\
+  <div class="section-title">Revenue waterfall</div>\
+  <div class="card">\
+    <div class="card-title">From available hours to net profit</div>\
+    <div class="card-sub">How revenue flows through to profit at current settings</div>\
+    <div class="waterfall" id="waterfall"></div>\
+    <div style="display:flex;gap:4px" id="waterfall-labels"></div>\
+  </div>\
+</div>\
+</div>\
+\
+</div><!-- /main -->\
+</div><!-- /app -->\
+\
+<script>\
+// ===== DATA =====\
+const GRADES = [\
+  \{id:'asst',      label:'Asst Consultant',    color:'#5C7F92', baseRate:60,  targetUtil:0.65, defaultPeople:2, maxPeople:6\},\
+  \{id:'cons',      label:'Consultant',          color:'#175E54', baseRate:70,  targetUtil:0.80, defaultPeople:4, maxPeople:10\},\
+  \{id:'senior',    label:'Senior Consultant',   color:'#21314D', baseRate:84,  targetUtil:0.75, defaultPeople:3, maxPeople:8\},\
+  \{id:'principal', label:'Principal',           color:'#EAAB00', baseRate:90,  targetUtil:0.65, defaultPeople:1, maxPeople:4\},\
+  \{id:'ops',       label:'Head of Operations',  color:'#7BBBB2', baseRate:95,  targetUtil:0.35, defaultPeople:1, maxPeople:1\},\
+  \{id:'roots',     label:'Roots Team',          color:'#B9BE9C', baseRate:60,  targetUtil:0.35, defaultPeople:1, maxPeople:3\},\
+  \{id:'director',  label:'Director',            color:'#AA272F', baseRate:105, targetUtil:0.30, defaultPeople:1, maxPeople:1\},\
+];\
+\
+const TEAM = [\
+  \{name:'Felicity Humphries',  grade:'asst',      hrs:39.5\},\
+  \{name:'Emma Hughes',         grade:'asst',      hrs:39.5\},\
+  \{name:'Francessca Aldridge', grade:'cons',      hrs:31.6\},\
+  \{name:'Sebastian Channell',  grade:'cons',      hrs:39.5\},\
+  \{name:'Dominic Martens',     grade:'cons',      hrs:39.5\},\
+  \{name:'Rowan Finch',         grade:'senior',    hrs:39.5\},\
+  \{name:'Luke Waddison',       grade:'senior',    hrs:39.5\},\
+  \{name:'Katrina Wells',       grade:'principal',  hrs:39.5\},\
+  \{name:'Michael Nicklin',     grade:'senior',    hrs:39.5\},\
+  \{name:'Rebekah Bristow',     grade:'cons',      hrs:39.5\},\
+  \{name:'Sarah Kirk-Griffith', grade:'roots',     hrs:30\},\
+  \{name:'Laura Carter',        grade:'ops',       hrs:39.5\},\
+  \{name:'Peter Wharton',       grade:'director',  hrs:39.5\},\
+];\
+\
+// Seasonal distribution (monthly multipliers, sum to 12)\
+const SEASON = [0.85, 0.90, 0.95, 1.10, 1.15, 1.15, 1.10, 1.05, 0.95, 0.85, 0.85, 0.85];\
+const MONTHS = ['Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar'];\
+\
+const BASE_AVAIL = 1798; // hours/year full-time\
+const FULL_HRS = 39.5;\
+const COS_RATE = 0.585;\
+const ADMIN_FIXED = 228000;\
+const TAX = 0.251;\
+const OTHER_INCOME = 83000; // mileage + roots + other\
+\
+// State\
+let state = \{\};\
+GRADES.forEach(g=>\{\
+  state[g.id] = \{util: g.targetUtil, people: g.defaultPeople\};\
+  if(g.id==='senior') state[g.id] = \{util:0.75, people:3\};\
+  if(g.id==='cons')   state[g.id] = \{util:0.80, people:4\};\
+  if(g.id==='director') state[g.id] = \{util:0.30, people:1\};\
+  if(g.id==='ops')      state[g.id] = \{util:0.35, people:1\};\
+  if(g.id==='roots')    state[g.id] = \{util:0.35, people:1\};\
+\});\
+\
+function fmt(n)\{return'\'a3'+Math.round(n).toLocaleString('en-GB')\}\
+function pct(n)\{return(n>=0?'+':'')+n.toFixed(1)+'%'\}\
+function col(v,t)\{return v>=t*0.99?'#175E54':v>=t*0.85?'#EAAB00':'#AA272F'\}\
+\
+function availHrs(grade, hoursPerWeek)\{\
+  const ratio = hoursPerWeek / FULL_HRS;\
+  return Math.round(BASE_AVAIL * ratio);\
+\}\
+\
+function gradeRevenue(g)\{\
+  const rMult = parseInt(document.getElementById('g-rate').value)/100;\
+  const rate = g.baseRate * rMult;\
+  const util = state[g.id].util;\
+  const people = state[g.id].people;\
+\
+  // Use actual contracted hours per person from TEAM array\
+  const teamMembers = TEAM.filter(t => t.grade === g.id);\
+  let totalHrs = 0;\
+  if(teamMembers.length > 0 && people <= teamMembers.length)\{\
+    // Use actual hours for known team members\
+    for(let i=0; i<people; i++)\{\
+      const hrs = teamMembers[i] ? teamMembers[i].hrs : FULL_HRS;\
+      const avail = Math.round(BASE_AVAIL * (hrs / FULL_HRS));\
+      totalHrs += Math.round(avail * util);\
+    \}\
+  \} else \{\
+    // Fallback: assume full-time for any extra headcount\
+    totalHrs = Math.round(BASE_AVAIL * util * people);\
+  \}\
+  return Math.round(totalHrs * rate);\
+\}\
+\
+function totalFeeRevenue()\{\
+  return GRADES.reduce((s,g)=>s+gradeRevenue(g),0);\
+\}\
+\
+function calc()\{\
+  const rMult = parseInt(document.getElementById('g-rate').value)/100;\
+  const rPct = Math.round((rMult-1)*100);\
+  document.getElementById('g-rate-v').textContent = (rPct>=0?'+':'')+rPct+'%';\
+\
+  const feeRev = totalFeeRevenue();\
+  const tv = feeRev + OTHER_INCOME;\
+  const cos = tv * COS_RATE;\
+  const gp = tv - cos;\
+  const gm = (gp/tv)*100;\
+  const op = gp - ADMIN_FIXED;\
+  const pat = op>0 ? op*(1-TAX) : op;\
+  const tvGap = tv - 1300000;\
+  const totalPeople = GRADES.reduce((s,g)=>s+state[g.id].people,0);\
+  const totalHrs = GRADES.reduce((s,g)=>s+Math.round(BASE_AVAIL*state[g.id].util*state[g.id].people),0);\
+\
+  document.getElementById('m-tv').textContent = fmt(tv);\
+  document.getElementById('m-tv-s').textContent = (tvGap>=0?'+':'')+fmt(Math.abs(tvGap))+(tvGap>=0?' ahead':' short');\
+  document.getElementById('m-tv-s').className = 'ms '+(tvGap>=0?'up':'dn');\
+  document.getElementById('m-fee').textContent = fmt(feeRev);\
+  document.getElementById('m-gp').textContent = fmt(gp);\
+  document.getElementById('m-gm').textContent = 'Margin: '+gm.toFixed(1)+'%';\
+  document.getElementById('m-gm').className = 'ms '+(gm>=45?'up':gm>=38?'warn':'dn');\
+  document.getElementById('m-gap').textContent = fmt(Math.abs(tvGap));\
+  document.getElementById('m-gap-s').textContent = tvGap>=0?'Above target':'Below target';\
+  document.getElementById('m-gap-s').className = 'ms '+(tvGap>=0?'up':'dn');\
+  document.getElementById('m-hrs').textContent = totalHrs.toLocaleString();\
+  document.getElementById('m-rph').textContent = fmt(feeRev/Math.max(1,totalPeople));\
+\
+  // Target bars\
+  const bars = [\
+    \{label:'Turnover (target \'a31.3m)', val:tv, target:1300000\},\
+    \{label:'Gross profit (target \'a3560k)', val:gp, target:560000\},\
+    \{label:'Operating profit (target \'a3256k)', val:op, target:256000\},\
+  ];\
+  document.getElementById('target-bars').innerHTML = bars.map(b=>\{\
+    const p = Math.min(100,(b.val/b.target)*100);\
+    const c = col(b.val,b.target);\
+    return `<div class="tgt-row">\
+      <div class="tgt-label">$\{b.label\}</div>\
+      <div class="tgt-track"><div class="tgt-fill" style="width:$\{p\}%;background:$\{c\}"></div></div>\
+      <div class="tgt-pct" style="color:$\{c\}">$\{fmt(b.val)\} \'97 $\{p.toFixed(0)\}%</div>\
+    </div>`;\
+  \}).join('');\
+\
+  // Update grade slider displays\
+  GRADES.forEach(g=>\{\
+    const rev = gradeRevenue(g);\
+    const el = document.getElementById('gb-rev-'+g.id);\
+    if(el) el.textContent = fmt(rev);\
+    const hoursEl = document.getElementById('sl-hrs-'+g.id);\
+    if(hoursEl)\{\
+      const hrs = Math.round(BASE_AVAIL * state[g.id].util * state[g.id].people);\
+      hoursEl.textContent = hrs.toLocaleString()+' hrs/yr';\
+    \}\
+    const monthEl = document.getElementById('sl-mhrs-'+g.id);\
+    if(monthEl)\{\
+      const mhrs = Math.round(BASE_AVAIL * state[g.id].util * state[g.id].people / 12);\
+      monthEl.textContent = Math.round(mhrs)+' hrs/month avg';\
+    \}\
+  \});\
+\
+  updateUtilPage();\
+  updateMonthlyPage();\
+  updateScenariosPage(feeRev, tv, gp, op, pat);\
+  updateBreakdownPage();\
+\}\
+\
+function buildSliders()\{\
+  const cont = document.getElementById('grade-sliders');\
+  cont.innerHTML = '';\
+  GRADES.forEach(g=>\{\
+    const hdr = `background:$\{g.color\}`;\
+    const div = document.createElement('div');\
+    div.className = 'grade-block';\
+    div.innerHTML = `\
+      <div class="gb-header" style="$\{hdr\}">\
+        <div class="gb-title">$\{g.label\}</div>\
+        <div class="gb-rev" id="gb-rev-$\{g.id\}">\'a30</div>\
+      </div>\
+      <div class="gb-body">\
+        <div class="people-row">\
+          <div class="sl-label">People</div>\
+          <div class="people-btns">\
+            <div class="pb" onclick="changePeople('$\{g.id\}',-1)">\uc0\u8722 </div>\
+            <div class="people-count" id="pc-$\{g.id\}">$\{state[g.id].people\}</div>\
+            <div class="pb" onclick="changePeople('$\{g.id\}',1)">+</div>\
+          </div>\
+        </div>\
+        <div class="sl-row">\
+          <div class="sl-label">Utilisation</div>\
+          <div class="sl-track">\
+            <input type="range" id="util-$\{g.id\}" min="30" max="100" value="$\{Math.round(g.targetUtil*100)\}" step="1"\
+              style="accent-color:$\{g.color\}" oninput="onUtil('$\{g.id\}')">\
+          </div>\
+          <div class="sl-val" id="uv-$\{g.id\}">$\{Math.round(g.targetUtil*100)\}%</div>\
+        </div>\
+        <div class="sl-hours" id="sl-hrs-$\{g.id\}">0 hrs/yr</div>\
+        <div class="sl-hours" id="sl-mhrs-$\{g.id\}" style="margin-top:-8px">0 hrs/month avg</div>\
+        <div class="sl-row">\
+          <div class="sl-label" style="font-size:9px">Target util</div>\
+          <div style="font-size:10px;font-weight:700;color:$\{g.color\}">$\{Math.round(g.targetUtil*100)\}%</div>\
+          <div style="flex:1"></div>\
+          <div class="sl-val" style="font-size:10px;color:var(--muted)">Rate: \'a3$\{g.baseRate\}/hr</div>\
+        </div>\
+      </div>`;\
+    cont.appendChild(div);\
+  \});\
+\}\
+\
+function onUtil(id)\{\
+  const v = parseInt(document.getElementById('util-'+id).value);\
+  state[id].util = v/100;\
+  document.getElementById('uv-'+id).textContent = v+'%';\
+  calc();\
+\}\
+\
+function changePeople(id, delta)\{\
+  const g = GRADES.find(x=>x.id===id);\
+  const newVal = Math.max(0,Math.min(g.maxPeople, state[id].people+delta));\
+  state[id].people = newVal;\
+  document.getElementById('pc-'+id).textContent = newVal;\
+  calc();\
+\}\
+\
+function updateUtilPage()\{\
+  // Individual util rows\
+  let html = '';\
+  TEAM.forEach(p=>\{\
+    const g = GRADES.find(x=>x.id===p.grade);\
+    if(!g) return;\
+    const avail = availHrs(p.grade, p.hrs);\
+    const tgt = g.targetUtil;\
+    const actual = state[g.id].util;\
+    const chargeable = Math.round(avail * actual);\
+    const tgtChargeable = Math.round(avail * tgt);\
+    const pct = Math.round(actual*100);\
+    const c = col(actual, tgt);\
+    const pctWidth = Math.min(100, actual*100);\
+    html += `<div class="util-row">\
+      <div class="util-name">$\{p.name\}</div>\
+      <div class="util-grade">$\{g.label\}</div>\
+      <div class="util-track"><div class="util-fill" style="width:$\{pctWidth\}%;background:$\{c\}"></div></div>\
+      <div class="util-pct" style="color:$\{c\}">$\{pct\}%</div>\
+      <div class="util-hrs">$\{chargeable.toLocaleString()\} hrs/yr</div>\
+    </div>`;\
+  \});\
+  document.getElementById('util-table').innerHTML = html;\
+\
+  // RAG grid\
+  let ragHtml = '';\
+  GRADES.forEach(g=>\{\
+    const actual = state[g.id].util;\
+    const tgt = g.targetUtil;\
+    const rag = actual>=tgt*0.99?'g':actual>=tgt*0.85?'a':'r';\
+    const ragLabel = rag==='g'?'On target':rag==='a'?'Watch':'Below target';\
+    const c = rag==='g'?'#175E54':rag==='a'?'#EAAB00':'#AA272F';\
+    ragHtml += `<div class="card" style="padding:12px 14px;border-top:3px solid $\{g.color\}">\
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">\
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--text)">$\{g.label\}</div>\
+        <div class="rag $\{rag\}"></div>\
+      </div>\
+      <div style="font-size:20px;font-weight:800;color:$\{g.color\}">$\{Math.round(actual*100)\}%</div>\
+      <div style="font-size:9px;font-weight:700;color:$\{c\};margin-top:3px;text-transform:uppercase;letter-spacing:.5px">$\{ragLabel\}</div>\
+      <div style="font-size:9px;color:var(--muted);margin-top:2px">Target: $\{Math.round(tgt*100)\}% &nbsp;\'b7&nbsp; $\{state[g.id].people\} people</div>\
+    </div>`;\
+  \});\
+  document.getElementById('util-rag-grid').innerHTML = ragHtml;\
+\}\
+\
+function updateMonthlyPage()\{\
+  const rMult = parseInt(document.getElementById('g-rate').value)/100;\
+  const totalAnnualHrs = GRADES.reduce((s,g)=>s+Math.round(BASE_AVAIL*state[g.id].util*state[g.id].people),0);\
+  const totalAnnualRev = totalFeeRevenue() + OTHER_INCOME;\
+  const monthTab = document.getElementById('active-month-tab')?.value||'hours';\
+\
+  // Monthly hours\
+  const mHrs = SEASON.map(s=>Math.round(totalAnnualHrs * s / SEASON.reduce((a,b)=>a+b,0)));\
+  const mRev = SEASON.map((s,i)=>Math.round(totalAnnualRev * s / SEASON.reduce((a,b)=>a+b,0)));\
+  const mTargets = [310000,310000,310000,350000,350000,350000,320000,320000,320000,320000,320000,320000].map(v=>v/3);\
+\
+  const maxHrs = Math.max(...mHrs);\
+  const maxRev = Math.max(...mRev,100000);\
+\
+  // Chart\
+  const data = currentMonthTab==='revenue' ? mRev : mHrs;\
+  const maxData = currentMonthTab==='revenue' ? maxRev : maxHrs;\
+  const barColor = currentMonthTab==='revenue' ? '#175E54' : '#21314D';\
+  const prefix = currentMonthTab==='revenue' ? '\'a3' : '';\
+\
+  document.getElementById('month-chart').innerHTML = MONTHS.map((m,i)=>\{\
+    const h = Math.round((data[i]/maxData)*80);\
+    let dispVal = currentMonthTab==='revenue' ? '\'a3'+Math.round(data[i]/1000)+'k' : data[i].toLocaleString();\
+    return `<div class="month-col">\
+      <div class="month-val">$\{dispVal\}</div>\
+      <div class="month-bar-wrap"><div class="month-bar" style="height:$\{h\}px;background:$\{barColor\}"></div></div>\
+      <div class="month-label">$\{m\}</div>\
+    </div>`;\
+  \}).join('');\
+\
+  // Monthly table\
+  const qMap = [0,0,0,1,1,1,2,2,2,3,3,3];\
+  const qNames = ['Q1','Q2','Q3','Q4'];\
+  const qTgts = [310000,350000,320000,320000];\
+  let tableHtml = `<thead><tr><th>Month</th><th>Quarter</th><th>Chargeable hrs</th><th>Revenue (est.)</th><th>Q target</th><th>Cumulative</th><th>vs annual target</th></tr></thead><tbody>`;\
+  let cumRev = 0;\
+  mRev.forEach((rev,i)=>\{\
+    cumRev += rev;\
+    const q = qMap[i];\
+    const annualPct = Math.min(100,(cumRev/1300000)*100).toFixed(0);\
+    const c = col(cumRev, 1300000*(i+1)/12);\
+    tableHtml += `<tr>\
+      <td class="bold">$\{MONTHS[i]\}</td>\
+      <td>$\{qNames[q]\}</td>\
+      <td>$\{mHrs[i].toLocaleString()\}</td>\
+      <td style="font-weight:700">\'a3$\{Math.round(rev/1000)\}k</td>\
+      <td style="color:var(--muted)">\'a3$\{Math.round(qTgts[q]/1000)\}k</td>\
+      <td style="font-weight:700;color:$\{c\}">\'a3$\{Math.round(cumRev/1000)\}k</td>\
+      <td style="font-weight:700;color:$\{c\}">$\{annualPct\}%</td>\
+    </tr>`;\
+  \});\
+  tableHtml += `<tr class="total"><td colspan="2">Full year</td><td>$\{totalAnnualHrs.toLocaleString()\}</td><td>\'a3$\{Math.round(totalAnnualRev/1000)\}k</td><td>\'a31,300k</td><td style="color:$\{col(totalAnnualRev,1300000)\}">\'a3$\{Math.round(cumRev/1000)\}k</td><td style="color:$\{col(totalAnnualRev,1300000)\}">$\{((totalAnnualRev/1300000)*100).toFixed(0)\}%</td></tr>`;\
+  tableHtml += '</tbody>';\
+  document.getElementById('monthly-table').innerHTML = tableHtml;\
+\}\
+\
+function updateScenariosPage(feeRev, tv, gp, op, pat)\{\
+  const scenarios = [\
+    \{label:'Conservative',  sub:'No rate increase, -10% utilisation', tv:1090000, gp:465000, op:95000, pat:71155, color:'#AA272F'\},\
+    \{label:'Base plan',     sub:'+8% rates, target utilisation',       tv:1346000, gp:666000, op:256000, pat:191744, color:'#EAAB00'\},\
+    \{label:'Stretch',       sub:'+8% rates + vacant post filled',      tv:1480000, gp:750000, op:330000, pat:247170, color:'#175E54'\},\
+    \{label:'Your model',    sub:'Current slider settings',             tv, gp, op, pat, color:'#21314D'\},\
+  ];\
+\
+  document.getElementById('scenario-metrics').innerHTML = scenarios.map(s=>\{\
+    const onTarget = s.tv >= 1300000;\
+    return `<div class="metric" style="border-top:3px solid $\{s.color\}">\
+      <div class="ml">$\{s.label\}</div>\
+      <div class="mv" style="font-size:14px;color:$\{s.color\}">$\{fmt(s.tv)\}</div>\
+      <div class="ms" style="color:$\{onTarget?'#175E54':'#AA272F'\};font-weight:600">$\{onTarget?'On target':'Below target'\}</div>\
+    </div>`;\
+  \}).join('');\
+\
+  let tHtml = `<thead><tr><th>Line item</th>$\{scenarios.map(s=>`<th style="color:$\{s.color\}">$\{s.label\}</th>`).join('')\}</tr></thead><tbody>`;\
+  const rows = [\
+    \{label:'Turnover',         key:'tv',  bold:true\},\
+    \{label:'Gross profit',     key:'gp',  bold:true\},\
+    \{label:'Operating profit', key:'op',  bold:true\},\
+    \{label:'Profit after tax', key:'pat', bold:true\},\
+  ];\
+  rows.forEach(r=>\{\
+    tHtml += `<tr$\{r.bold?' class="total"':''\}><td class="$\{r.bold?'bold':''\}">$\{r.label\}</td>$\{scenarios.map(s=>`<td style="font-weight:600;color:$\{s[r.key]>=0?'#175E54':'#AA272F'\}">$\{fmt(s[r.key])\}</td>`).join('')\}</tr>`;\
+  \});\
+  tHtml += '</tbody>';\
+  document.getElementById('scenario-table').innerHTML = tHtml;\
+\
+  document.getElementById('scenario-narrative').innerHTML = `\
+    <div class="callout red"><strong>Conservative:</strong> No rate increase. Utilisation 10% below target. Revenue \'a31.09m. Profit after tax drops to \'a371k \'97 a significant step backward from 2025/26. Avoid this scenario by implementing fee rates and tracking utilisation from April.</div>\
+    <div class="callout gold"><strong>Base plan:</strong> 8% fee rate increase from April. Utilisation hitting targets. Revenue \'a31.35m. PAT \'a3192k. Viable and above \'a31.3m target \'97 but below the \'a3300k profit ambition.</div>\
+    <div class="callout green"><strong>Stretch:</strong> Rate increase + target utilisation + vacant Arboricultural Consultant post filled by Q2. Revenue \'a31.48m. PAT \'a3247k. Closest route to the \'a3300\'96350k profit target.</div>\
+    <div class="callout sky" style="margin-top:8px"><strong>Your model:</strong> Current settings project \'a3$\{Math.round(tv/1000)\}k turnover and \'a3$\{Math.round(pat/1000)\}k profit after tax. $\{tv>=1300000?'\uc0\u10003  Above the \'a31.3m revenue target.':'Adjust utilisation, headcount or rate multiplier to reach the \'a31.3m target.'\}</div>`;\
+\}\
+\
+function updateBreakdownPage()\{\
+  const rMult = parseInt(document.getElementById('g-rate').value)/100;\
+  let tableHtml = `<thead><tr>\
+    <th>Grade</th><th>People</th><th>Base rate</th><th>Effective rate</th>\
+    <th>Utilisation</th><th>Hrs/person/yr</th><th>Total hrs</th>\
+    <th>Revenue</th><th>% of fee total</th>\
+  </tr></thead><tbody>`;\
+\
+  const feeRev = totalFeeRevenue();\
+  let grandTotalHrs = 0;\
+\
+  GRADES.forEach(g=>\{\
+    const effectiveRate = (g.baseRate * rMult).toFixed(2);\
+    const util = state[g.id].util;\
+    const people = state[g.id].people;\
+    const rev = gradeRevenue(g);\
+\
+    // Calculate avg available hrs per person for this grade\
+    const teamMembers = TEAM.filter(t => t.grade === g.id);\
+    let totalChargeableHrs = 0;\
+    let hrsPerPerson = BASE_AVAIL;\
+\
+    if(teamMembers.length > 0)\{\
+      let sumAvail = 0;\
+      const count = Math.min(people, teamMembers.length);\
+      for(let i=0; i<count; i++)\{\
+        const avail = Math.round(BASE_AVAIL * (teamMembers[i].hrs / FULL_HRS));\
+        sumAvail += avail;\
+        totalChargeableHrs += Math.round(avail * util);\
+      \}\
+      // Any extra people beyond known team = full time\
+      for(let i=teamMembers.length; i<people; i++)\{\
+        sumAvail += BASE_AVAIL;\
+        totalChargeableHrs += Math.round(BASE_AVAIL * util);\
+      \}\
+      hrsPerPerson = people > 0 ? Math.round(sumAvail / people) : BASE_AVAIL;\
+    \} else \{\
+      totalChargeableHrs = Math.round(BASE_AVAIL * util * people);\
+      hrsPerPerson = BASE_AVAIL;\
+    \}\
+\
+    grandTotalHrs += totalChargeableHrs;\
+    const share = feeRev > 0 ? ((rev/feeRev)*100).toFixed(1)+'%' : '\'97';\
+    const ragC = col(util, g.targetUtil);\
+\
+    tableHtml += `<tr>\
+      <td><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:$\{g.color\};margin-right:6px;vertical-align:middle"></span>\
+          <span class="bold">$\{g.label\}</span></td>\
+      <td>$\{people\}</td>\
+      <td style="color:var(--muted)">\'a3$\{g.baseRate\}/hr</td>\
+      <td style="font-weight:700;color:var(--night-sky)">\'a3$\{effectiveRate\}/hr</td>\
+      <td style="font-weight:700;color:$\{ragC\}">$\{Math.round(util*100)\}%</td>\
+      <td>$\{hrsPerPerson.toLocaleString()\}</td>\
+      <td>$\{totalChargeableHrs.toLocaleString()\}</td>\
+      <td style="font-weight:800;color:#175E54">$\{fmt(rev)\}</td>\
+      <td style="font-weight:700;color:var(--sky)">$\{share\}</td>\
+    </tr>`;\
+  \});\
+\
+  const tv = feeRev + OTHER_INCOME;\
+  tableHtml += `<tr class="total">\
+    <td colspan="6">Total fee revenue</td>\
+    <td>$\{grandTotalHrs.toLocaleString()\}</td>\
+    <td style="color:#175E54">$\{fmt(feeRev)\}</td>\
+    <td>100%</td>\
+  </tr>`;\
+  tableHtml += '</tbody>';\
+  document.getElementById('breakdown-table').innerHTML = tableHtml;\
+\
+  // Waterfall\
+  const cos = Math.round(tv * COS_RATE);\
+  const gp = tv - cos;\
+  const admin = ADMIN_FIXED;\
+  const op = gp - admin;\
+  const tax = op>0 ? Math.round(op*TAX) : 0;\
+  const pat = op - tax;\
+  const wfData = [\
+    \{label:'Turnover',    val:tv,    color:'#21314D'\},\
+    \{label:'Cost of sales', val:-cos,color:'#AA272F'\},\
+    \{label:'Gross profit',  val:gp,  color:'#175E54'\},\
+    \{label:'Admin',         val:-admin,color:'#AA272F'\},\
+    \{label:'Op. profit',    val:op,  color:op>0?'#175E54':'#AA272F'\},\
+    \{label:'Tax',           val:-tax,color:'#5C7F92'\},\
+    \{label:'PAT',           val:pat, color:pat>0?'#EAAB00':'#AA272F'\},\
+  ];\
+  const maxAbs = Math.max(...wfData.map(d=>Math.abs(d.val)));\
+  const wfH = 160;\
+  document.getElementById('waterfall').innerHTML = wfData.map(d=>\{\
+    const h = Math.max(4,Math.round((Math.abs(d.val)/maxAbs)*wfH));\
+    return `<div class="wf-col">\
+      <div class="wf-value">$\{d.val<0?'-':''\}\'a3$\{Math.round(Math.abs(d.val)/1000)\}k</div>\
+      <div class="wf-bar" style="height:$\{h\}px;background:$\{d.color\}"></div>\
+    </div>`;\
+  \}).join('');\
+  document.getElementById('waterfall-labels').innerHTML = wfData.map(d=>`\
+    <div style="flex:1;text-align:center;font-size:8px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.3px">$\{d.label\}</div>`).join('');\
+\}\
+\
+// NAVIGATION\
+function showPage(id, el)\{\
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('active'));\
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));\
+  document.getElementById('pg-'+id).classList.add('active');\
+  if(el) el.classList.add('active');\
+  const titles = \{revenue:'Revenue Engine',utilisation:'Utilisation Tracker',monthly:'Monthly Hours & Revenue',scenarios:'Scenario Planner',breakdown:'Grade Breakdown'\};\
+  const subs = \{revenue:'Adjust multipliers to model fee-earning scenarios',utilisation:'Individual and grade-level utilisation analysis',monthly:'Seasonal distribution of hours and revenue',scenarios:'Compare conservative, base, stretch and custom scenarios',breakdown:'Revenue contribution by grade \'97 waterfall view'\};\
+  document.getElementById('page-title').textContent = titles[id]||id;\
+  document.getElementById('page-sub').textContent = subs[id]||'';\
+  if(id==='monthly') updateMonthlyPage();\
+\}\
+\
+// ROLE VIEWS\
+function setRole(role, el)\{\
+  document.querySelectorAll('.rb').forEach(b=>b.classList.remove('active'));\
+  el.classList.add('active');\
+  const badge = document.getElementById('role-badge');\
+  const labels = \{director:'DIRECTOR VIEW', cfo:'CFO VIEW', brand:'BRAND OVERVIEW'\};\
+  const colors = \{director:'rgba(23,94,84,.3)', cfo:'rgba(170,39,47,.2)', brand:'rgba(234,171,0,.2)'\};\
+  const textColors = \{director:'#7BBBB2', cfo:'#DD6B6B', brand:'#EAAB00'\};\
+  badge.textContent = labels[role];\
+  badge.style.background = colors[role];\
+  badge.style.color = textColors[role];\
+\}\
+\
+// MONTH TABS\
+let currentMonthTab = 'hours';\
+function setMonthTab(tab, el)\{\
+  document.querySelectorAll('.it').forEach(t=>t.classList.remove('active'));\
+  el.classList.add('active');\
+  currentMonthTab = tab;\
+  const titles = \{hours:'Chargeable hours per month \'97 all grades', revenue:'Fee revenue per month', cumulative:'Cumulative revenue vs target'\};\
+  document.getElementById('month-chart-title').textContent = titles[tab]||'';\
+  updateMonthlyPage();\
+\}\
+\
+// INIT\
+buildSliders();\
+calc();\
+</script>\
+</body>\
+</html>}
