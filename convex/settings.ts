@@ -1,6 +1,6 @@
 import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
-import { requireUser, requireAdmin } from "./auth";
+import { requireAdmin } from "./auth";
 
 const DEFAULTS = {
   key: "global",
@@ -14,7 +14,9 @@ const DEFAULTS = {
 export const get = query({
   args: {},
   handler: async (ctx) => {
-    await requireUser(ctx);
+    // Don't throw before the token is attached; defaults are safe to return.
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) return DEFAULTS;
     const row = await ctx.db
       .query("settings")
       .withIndex("by_key", (q) => q.eq("key", "global"))

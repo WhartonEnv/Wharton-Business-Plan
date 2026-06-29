@@ -1,13 +1,16 @@
 import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
-import { requireUser, requireAdmin, roleOf } from "./auth";
+import { requireAdmin, roleOf } from "./auth";
 
 // --- Reads (any signed-in user) ---
 
 export const list = query({
   args: {},
   handler: async (ctx) => {
-    await requireUser(ctx);
+    // Always-subscribed read: return [] (don't throw) before the auth token is
+    // attached, to avoid console error spam on load and token refresh.
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) return [];
     return await ctx.db.query("teamMembers").withIndex("by_order").collect();
   },
 });
